@@ -3,7 +3,8 @@ import exceptions._
 
 class Game(info: String) {
   
-  //Including only the information regarding the layout of the map from the file (layout hight, layout length, layout; not the tag MAP)
+  //Including only the information regarding the layout of the map from the file
+  //(layout height, layout length, layout; not the tag MAP)
   val trackInfo = {
     this.infoTest(info)
     
@@ -30,7 +31,7 @@ class Game(info: String) {
   val track = new RaceTrack(trackInfo)
   
   
-    
+  //Plays a turn as in moves the cars and returns an updated map
   def playTurn(gearChange1: String, gearChange2: String, directionChange1: String, directionChange2: String): Array[Array[Char]] = {
     
     
@@ -38,7 +39,7 @@ class Game(info: String) {
     
     
     
-    track.drawMap
+    track.drawMap(???, ???)
   }
   
   
