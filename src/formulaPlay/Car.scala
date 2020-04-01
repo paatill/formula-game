@@ -2,12 +2,24 @@
 
 package formulaPlay
 
-class Car(val driver: Driver) {
+class Car(val driver: Driver, firstPosition: (Int, Int)) {
   
-  private var currentPos = (-1, -1)
-  private var previousPos = (-1, -1)
+  private var currentPos = firstPosition
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   def position = currentPos
-  def setPosition(coords: (Int, Int)) = currentPos = coords
-  def abandonedPosition = previousPos
+  def setPosition(coords: (Int, Int)) = {
+    currentPos = coords
+  }
 }

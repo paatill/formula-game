@@ -24,11 +24,13 @@ class Game(info: String) {
     (driver1Name, driver2Name)
   }
   
-  //Creating the cars
-  val car1 = new Car(Driver(name1))
-  val car2 = new Car(Driver(name2))
-  
+  //Creating the race track
   val track = new RaceTrack(trackInfo)
+  
+  //Creating the cars
+  val car1 = new Car(Driver(name1), track.car1Pos)
+  val car2 = new Car(Driver(name2), track.car2Pos)
+  
   
   
   //Plays a turn as in moves the cars and returns an updated map

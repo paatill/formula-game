@@ -8,8 +8,8 @@ class RaceTrack(mapInfo: String) {
   //Keeps track of the latest car positions
   //Main purpose is for marking the position a car has been in the track
   //Set during the evaluation of firstMap
-  var car1Pos = (0, 0)
-  var car2Pos = (0, 1)
+  var car1Pos = (-1, -1)
+  var car2Pos = (-1, -1)
   
   
   //The original map read from the file
