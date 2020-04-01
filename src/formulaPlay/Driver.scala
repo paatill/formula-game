@@ -2,6 +2,6 @@
 
 package formulaPlay
 
-class Driver {
+class Driver(val name: String) {
   
 }
