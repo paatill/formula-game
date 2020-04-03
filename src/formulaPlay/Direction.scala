@@ -1,7 +1,7 @@
 package formulaPlay
 
 abstract class GeneralDirection {
-  ???
+  
 }
 
 
