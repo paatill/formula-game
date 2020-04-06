@@ -42,7 +42,7 @@ class gearOne extends Gear {
   val speed = 1
   val sideLength = 3
   val direction = Array(-1, 0)
-  val plusHalf = 30
+  val plusHalf = 30; println("TTT")
   val minusHalf = -1
 }
 

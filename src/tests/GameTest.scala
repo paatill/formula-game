@@ -5,7 +5,7 @@ import org.scalatest._
 class GameTest extends FlatSpec {
   "trackInfo" should "have only the information for RaceTrack" in {
     val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0302XPPPPYEND")
-    assert(game.trackInfo === "0302XPPPPY")
+    assert(game.trackInfo === "KKK")//"0302XPPPPY")
   }
   
   "Driver names" should "be what is read from the file." in {

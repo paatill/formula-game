@@ -1,8 +1,6 @@
 package formulaPlay
 
-abstract class GeneralDirection {
-  
-}
+abstract class GeneralDirection
 
 
 object Up extends GeneralDirection
