@@ -13,6 +13,9 @@ class Game(info: String) {
     cutInfo2.drop(cutInfo2.take(1).toInt + 1 + 3).dropRight(3)
   }
   
+  val carPositionInfo = {
+    
+  }
   
   //Reading the driver names from info
   val (name1, name2) = {
@@ -41,7 +44,7 @@ class Game(info: String) {
     
     
     
-    track.drawMap(???, ???)
+    track.drawMap(car1.position, car2.position)
   }
   
   
