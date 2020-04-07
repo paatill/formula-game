@@ -4,11 +4,11 @@ import org.scalatest._
 
 class GearTest extends FlatSpec {
   
-  val gearOne = new gearOne
-  val gearTwo = new gearTwo
-  val gearThree = new gearThree
-  val gearFour = new gearFour
-  val gearFive = new gearFive
+  val gearOne = new GearOne
+  val gearTwo = new GearTwo
+  val gearThree = new GearThree
+  val gearFour = new GearFour
+  val gearFive = new GearFive
   
   "plusHalf and minusHalf" should "be correct in any gear" in {
     assert(gearOne.plusHalf === 1)

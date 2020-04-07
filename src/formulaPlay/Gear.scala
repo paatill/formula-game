@@ -42,7 +42,7 @@ abstract class Gear {
   
 }
 
-class gearOne extends Gear {
+class GearOne extends Gear {
   val speed = 1
   val sideLength = 3
   val direction = Array(-1, 0)
@@ -50,7 +50,7 @@ class gearOne extends Gear {
   val minusHalf = -1
 }
 
-class gearTwo extends Gear {
+class GearTwo extends Gear {
   val speed = 2
   val sideLength = 5
   val direction = Array(-2, 0)
@@ -58,7 +58,7 @@ class gearTwo extends Gear {
   val minusHalf = -2
 }
 
-class gearThree extends Gear {
+class GearThree extends Gear {
   val speed = 3
   val sideLength = 7
   val direction = Array(-3, 0)
@@ -66,7 +66,7 @@ class gearThree extends Gear {
   val minusHalf = -3
 }
 
-class gearFour extends Gear {
+class GearFour extends Gear {
   val speed = 4
   val sideLength = 9
   val direction = Array(-4, 0)
@@ -74,7 +74,7 @@ class gearFour extends Gear {
   val minusHalf = -4
 }
 
-class gearFive extends Gear {
+class GearFive extends Gear {
   val speed = 5
   val sideLength = 11
   val direction = Array(-5, 0)
