@@ -36,13 +36,15 @@ class Game(info: String) {
   
   
   
-  //Plays a turn as in moves the cars and returns an updated map
-  def playTurn(gearChange1: String, gearChange2: String, directionChange1: String, directionChange2: String): Array[Array[Char]] = {
+  //Plays a turn as in moves the car and returns an updated map
+  //In more detail:
+  //Calls the car whose turn it is to move and gives it gearChange and directionChange as parameters
+  //Car returns its new position
+  //Calls on track to draw the updated map and gives the new car position as parameter
+  //Returns the aforementioned updated map
+  def playTurn(car: Car, gearChange: Char, directionChange: Int): Array[Array[Char]] = {
     
-    
-    
-    
-    
+    car.drive(gearChange, directionChange, track.map)
     
     track.drawMap(car1.position, car2.position)
   }

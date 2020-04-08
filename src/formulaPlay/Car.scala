@@ -12,8 +12,14 @@ class Car(val driver: Driver, firstPosition: (Int, Int)) {
   
   
   
-  
-  
+  //Simulates the car driving one round
+  //In more detail:
+  //Calls a new position from gearManager and gives gearChange, directionChange and current position as parameters
+  //Sets the returned position as new current position
+  //Returns Unit
+  def drive(gearChange: Char, directionChange: Int, map: Array[Array[Char]]): Unit = {
+    this.setPosition(gearManager.newPosition(gearChange, directionChange, this.position, map))
+  }
   
   
   

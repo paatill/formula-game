@@ -42,7 +42,9 @@ class RaceTrack(mapInfo: String) {
   }
   
   //The map being showed the players at the moment
- var currentMap = firstMap
+  var currentMap = firstMap
+  
+  def map = currentMap
   
   
   //Creates current map which means placing the cars onto their current positions

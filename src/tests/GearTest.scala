@@ -27,46 +27,50 @@ class GearTest extends FlatSpec {
     
     gearThree.direction(0) = -1
     gearThree.direction(1) = 3
-    gearThree.changeDirection(1, Up)
+    gearThree.changeDirection(1)
     assert(gearThree.direction === Array(-2, 3))
     
-    gearThree.changeDirection(1, Up)
+    gearThree.changeDirection(1)
     assert(gearThree.direction === Array(-3, 3))
     
-    val shouldBeLeft = gearThree.changeDirection(1, Up)
+    val shouldBeLeft = gearThree.changeDirection(1)
     assert(gearThree.direction === Array(-3, 2))
-    assert(shouldBeLeft === Left)
     
-    gearThree.changeDirection(-1, Left)
+    gearThree.changeDirection(-1)
     assert(gearThree.direction === Array(-3, 3))
     
-    gearThree.changeDirection(-1, Left)
+    gearThree.changeDirection(-1)
     assert(gearThree.direction === Array(-2, 3))
     
     gearThree.direction(0) = -3
     gearThree.direction(1) = -3
-    gearThree.changeDirection(1, Left)
+    gearThree.changeDirection(1)
     assert(gearThree.direction === Array(-2, -3))
     
     gearThree.direction(0) = 3
     gearThree.direction(1) = -3
-    gearThree.changeDirection(1, Down)
+    gearThree.changeDirection(1)
     assert(gearThree.direction === Array(3, -2))
     
     gearThree.direction(0) = 3
     gearThree.direction(1) = -3
-    gearThree.changeDirection(-1, Down)
+    gearThree.changeDirection(-1)
     assert(gearThree.direction === Array(2, -3))
     
     gearThree.direction(0) = 3
     gearThree.direction(1) = 3
-    gearThree.changeDirection(1, Right)
+    gearThree.changeDirection(1)
     assert(gearThree.direction === Array(2, 3))
     
     gearThree.direction(0) = 3
     gearThree.direction(1) = 3
-    gearThree.changeDirection(-1, Up)
+    gearThree.changeDirection(-1)
     assert(gearThree.direction === Array(3, 2))
+    
+    gearThree.direction(0) = 3
+    gearThree.direction(1) = 3
+    gearThree.changeDirection(0)
+    assert(gearThree.direction === Array(3, 3))
     
   }
   

@@ -17,7 +17,7 @@ class GameTest extends FlatSpec {
     val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0305KPXPPPPKKPPPKPYEND")
     assert(game.car1.position === (2, 0))
     assert(game.car2.position === (4, 2))
-    assert(game.playTurn("", "", "", "") === Array(Array('K', 'P', 'A', 'P', 'P'), Array('P', 'P', 'K', 'K', 'P'), Array('P', 'P', 'K', 'P', 'B')))
+    assert(game.playTurn(game.car1, '+', 1) === Array(Array('K', 'P', 'A', 'P', 'P'), Array('P', 'P', 'K', 'K', 'P'), Array('P', 'P', 'K', 'P', 'B')))
   }
   
   "car1.position" should "be the given one." in {
