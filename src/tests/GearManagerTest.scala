@@ -119,15 +119,10 @@ class GearManagerTest extends FlatSpec {
     gearManager.gear.direction(1) = 5
     assert(gearManager.newPosition('=', 0, (3, 2), map) === (3, 3))
     
-    println("\n\nTHE TEST\n\n")
-    
     gearManager.gearNumber = 1
     gearManager.changeGear
-    println("direction(0): " + gearManager.gear.direction(0) + "\n")
     gearManager.gear.direction(0) = 1
-    println("direction(0): " + gearManager.gear.direction(0) + "\n")
     gearManager.gear.direction(1) = 1
-    println("direction(0): " + gearManager.gear.direction(0) + "\n")
     assert(gearManager.newPosition('=', 0, (3, 2), map) === (4, 3))
     
     gearManager.gearNumber = 2
