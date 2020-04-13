@@ -3,7 +3,7 @@ import formulaPlay._
 import org.scalatest._
 
 class GearManagerTest extends FlatSpec {
-  val gearManager = new GearManager
+  val gearManager = new GearManager(Vector())
   
   "gearNumber" should "be correct after changeGearNumber" in {
     assert(gearManager.gearNumber === 1)
@@ -111,31 +111,31 @@ class GearManagerTest extends FlatSpec {
     gearManager.changeGear
     gearManager.gear.direction(0) = 1
     gearManager.gear.direction(1) = 0
-    assert(gearManager.newPosition('=', 0, (3, 2), map) === (4, 2))
+    assert(gearManager.newPosition('=', 0, (3, 2), map, true) === (4, 2))
     
     gearManager.gearNumber = 5
     gearManager.changeGear
     gearManager.gear.direction(0) = 0
     gearManager.gear.direction(1) = 5
-    assert(gearManager.newPosition('=', 0, (3, 2), map) === (3, 3))
+    assert(gearManager.newPosition('=', 0, (3, 2), map, true) === (3, 3))
     
     gearManager.gearNumber = 1
     gearManager.changeGear
     gearManager.gear.direction(0) = 1
     gearManager.gear.direction(1) = 1
-    assert(gearManager.newPosition('=', 0, (3, 2), map) === (4, 3))
+    assert(gearManager.newPosition('=', 0, (3, 2), map, true) === (4, 3))
     
     gearManager.gearNumber = 2
     gearManager.changeGear
     gearManager.gear.direction(0) = -2
     gearManager.gear.direction(1) = -1
-    assert(gearManager.newPosition('=', 0, (3, 2), map) === (1, 1))
+    assert(gearManager.newPosition('=', 0, (3, 2), map, true) === (1, 1))
     
     gearManager.gearNumber = 3
     gearManager.changeGear
     gearManager.gear.direction(0) = -3
-    gearManager.gear.direction(1) = -2
-    assert(gearManager.newPosition('-', 1, (3, 2), map) === (1, 1))
+    gearManager.gear.direction(1) = 2
+    assert(gearManager.newPosition('-', -1, (3, 2), map, true) === (1, 4))
     
     
   }

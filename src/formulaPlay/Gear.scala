@@ -18,7 +18,7 @@ abstract class Gear {
     val changeBy = if (direction(1) == plusHalf || direction(0) == minusHalf) changeByT * -1 else changeByT
     
     //Determines which part of the direction-vector is to be changed
-    val xOrY = if(direction(1) == plusHalf || direction(1) == minusHalf) 0 else 1
+    val xOrY = if (direction(1) == plusHalf || direction(1) == minusHalf) 0 else 1
     
     
     (direction, changeByT) match {

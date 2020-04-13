@@ -1,52 +1,79 @@
 package formulaPlay
 import exceptions._
 
-class Game(info: String) {
+class Game(info: String, driverName1: String, driverName2: String) {
   
   //Including only the information regarding the layout of the map from the file
   //(layout height, layout length, layout; not the tag MAP)
   val trackInfo = {
     this.infoTest(info)
-    
     val cutInfo = info.drop(13)
     val cutInfo2 = cutInfo.drop(cutInfo.take(1).toInt + 1)
     cutInfo2.drop(cutInfo2.take(1).toInt + 1 + 3).dropRight(3)
   }
   
-  val carPositionInfo = {
-    
-  }
-  
-  //Reading the driver names from info
-  val (name1, name2) = {
+  //Reading the record names from info
+  val (recordHolderName, recordTime) = {
     val cutInfo = info.drop(13)
     val toDrop = cutInfo.take(1).toInt
-    val driver1Name = cutInfo.drop(1).take(toDrop)
+    val recordHolder = cutInfo.drop(1).take(toDrop)
     val cutInfo2 = cutInfo.drop(toDrop + 1)
-    val driver2Name = cutInfo2.drop(1).take(cutInfo2.take(1).toInt)
-    (driver1Name, driver2Name)
+    val recordTimes = cutInfo2.drop(1).take(cutInfo2.take(1).toInt)
+    (recordHolder, recordTimes)
   }
   
   //Creating the race track
   val track = new RaceTrack(trackInfo)
   
-  //Creating the cars
-  val car1 = new Car(Driver(name1), track.car1Pos)
-  val car2 = new Car(Driver(name2), track.car2Pos)
+  val finishLine = track.finishLine.toVector
   
+  //Creating the cars
+  val car1 = new Car(Driver(driverName1), track.car1Pos, 'A', finishLine)
+  val car2 = new Car(Driver(driverName2), track.car2Pos, 'B', finishLine)
+  
+  //Marking which car is in turn and which isn't
+  var carInTurn = car1
+  var carNotInTurn = car2
+  
+  //Counts which turn it is
+  //Even number means its player 1's turn, an uneven number means its player 2's turn
+  var turn = 0
+  
+  //Tells whether the game has ended or not
+  var isOver = false
   
   
   //Plays a turn as in moves the car and returns an updated map
   //In more detail:
-  //Calls the car whose turn it is to move and gives it gearChange and directionChange as parameters
-  //Car returns its new position
-  //Calls on track to draw the updated map and gives the new car position as parameter
-  //Returns the aforementioned updated map
-  def playTurn(car: Car, gearChange: Char, directionChange: Int): Array[Array[Char]] = {
+  //The car whose driver has just given input drives meaning gets its location updated
+  //Track then alters its map so it corresponds to the car's new position
+  //The car not in turn then makes a map which has all its possible choices for the next turn marked
+  //Turn is then added by one and the carInTurn and CarNotInTurn are switched accordingly
+  //The map with all the choices is then returned
+  def playTurn(gearChange: Char, directionChange: Int): Array[Array[Char]] = {
     
-    car.drive(gearChange, directionChange, track.map)
+    
+    
+    
+    carInTurn.drive(gearChange, directionChange, track.map)
+    
+    
+    
     
     track.drawMap(car1.position, car2.position)
+    val returnMap = carNotInTurn.seekPossibilities(track.map)
+    
+    //Quits the game if a player has crossed the finish line and both players have played an equal number of turns
+    if ((carInTurn.gearManager.crossedFinishLine || carNotInTurn.gearManager.crossedFinishLine) && turn % 2 == 1) {
+      this.isOver = true
+    }
+    
+    
+    turn +=1
+    carInTurn = if (turn % 2 == 0) car1 else car2
+    carNotInTurn = if (turn % 2 == 0) car2 else car1
+    
+    returnMap
   }
   
   

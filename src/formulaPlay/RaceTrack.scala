@@ -1,6 +1,7 @@
 
 
 package formulaPlay
+import scala.collection.mutable._
 
 class RaceTrack(mapInfo: String) {
   
@@ -11,6 +12,7 @@ class RaceTrack(mapInfo: String) {
   var car1Pos = (-1, -1)
   var car2Pos = (-1, -1)
   
+  val finishLine = Buffer[(Int, Int)]()
   
   //The original map read from the file
   //Also sets the starting positions for the cars
@@ -25,13 +27,27 @@ class RaceTrack(mapInfo: String) {
       j <- track.indices
       i <- track(0).indices
     } {
+      
+      placements(0) match {
+        case 'X' => car1Pos = (i, j); track(j)(i) = 'A'
+        case 'Y' => car1Pos = (i, j); track(j)(i) = 'B'
+        case 'F' => finishLine += ((i, j)); track(j)(i) = 'F'
+        case _   => track(j)(i) = placements(0)
+      }
+      
       track(j)(i) = placements(0)
       
       if (placements(0) == 'X') {
         car1Pos = (i, j)
+        track(j)(i) = 'A'
       }
       if (placements(0) == 'Y') {
         car2Pos = (i, j)
+        track(j)(i) = 'B'
+      }
+      
+      if (placements(0) == 'F') {
+        
       }
       
       placements = placements.drop(1)
@@ -42,31 +58,26 @@ class RaceTrack(mapInfo: String) {
   }
   
   //The map being showed the players at the moment
-  var currentMap = firstMap
+  val map = firstMap
   
-  def map = currentMap
   
   
   //Creates current map which means placing the cars onto their current positions
   //Also leaves a a mark on their latest position
-  def drawMap(car1Position: (Int, Int), car2Position: (Int, Int)): Array[Array[Char]] = {
-    val newMap = currentMap
+  def drawMap(car1Position: (Int, Int), car2Position: (Int, Int)): Unit = {
     
     //Marks latest positions
-    newMap(car1Pos._2)(car1Pos._1) = 'a'
-    newMap(car2Pos._2)(car2Pos._1) = 'b'
+    map(car1Pos._2)(car1Pos._1) = 'a'
+    map(car2Pos._2)(car2Pos._1) = 'b'
     
     //Changes positions
     car1Pos = car1Position
     car2Pos = car2Position
     
     //Marks new positions
-    newMap(car1Pos._2)(car1Pos._1) = 'A'
-    newMap(car2Pos._2)(car2Pos._1) = 'B'
+    map(car1Pos._2)(car1Pos._1) = 'A'
+    map(car2Pos._2)(car2Pos._1) = 'B'
     
-    currentMap = newMap
-    
-    currentMap
   }
   
   

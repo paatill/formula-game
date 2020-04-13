@@ -23,7 +23,53 @@ class GearTest extends FlatSpec {
     assert(gearFive.minusHalf === -5)
   }
   
-  "direction" should "be changed properly when |direction(0)| != |direction(1)| in gear 3" in {
+  
+  "direction" should "be changed properly when |direction(0)| != |direction(1)| in gear 1" in {
+    
+    gearOne.direction(0) = -1
+    gearOne.direction(1) = 0
+    gearOne.changeDirection(1)
+    assert(gearOne.direction === Array(-1, -1))
+    
+    gearOne.direction(0) = 1
+    gearOne.direction(1) = 0
+    gearOne.changeDirection(1)
+    assert(gearOne.direction === Array(1, 1))
+    
+    gearOne.direction(0) = -1
+    gearOne.direction(1) = 0
+    gearOne.changeDirection(-1)
+    assert(gearOne.direction === Array(-1, 1))
+    
+    gearOne.direction(0) = 1
+    gearOne.direction(1) = 0
+    gearOne.changeDirection(-1)
+    assert(gearOne.direction === Array(1, -1))
+    
+    gearOne.direction(0) = 0
+    gearOne.direction(1) = -1
+    gearOne.changeDirection(1)
+    assert(gearOne.direction === Array(1, -1))
+    
+    gearOne.direction(0) = 0
+    gearOne.direction(1) = -1
+    gearOne.changeDirection(-1)
+    assert(gearOne.direction === Array(-1, -1))
+    
+    gearOne.direction(0) = 0
+    gearOne.direction(1) = 1
+    gearOne.changeDirection(1)
+    assert(gearOne.direction === Array(-1, 1))
+    
+    gearOne.direction(0) = 0
+    gearOne.direction(1) = 1
+    gearOne.changeDirection(-1)
+    assert(gearOne.direction === Array(1, 1))
+    
+  }
+  
+  
+  "direction" should "be changed properly when |direction(0)| == |direction(1)| in gear 3" in {
     
     gearThree.direction(0) = -1
     gearThree.direction(1) = 3
