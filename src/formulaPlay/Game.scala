@@ -1,29 +1,37 @@
 package formulaPlay
+import scala.swing._
 import exceptions._
 
 class Game(info: String, driverName1: String, driverName2: String) {
   
   //Including only the information regarding the layout of the map from the file
   //(layout height, layout length, layout; not the tag MAP)
-  val trackInfo = {
+  val (trackInfo, lapInfo) = {
     this.infoTest(info)
-    val cutInfo = info.drop(13)
-    val cutInfo2 = cutInfo.drop(cutInfo.take(1).toInt + 1)
-    cutInfo2.drop(cutInfo2.take(1).toInt + 1 + 3).dropRight(3)
+    val cutInfo = info.drop(13)                                                //"FORMULAMAPREC" dropped
+    val cutInfo2 = cutInfo.drop(cutInfo.take(1).toInt + 1)                     //RecordHolder name and its length dropped
+    val cutInfo3 = cutInfo2.drop(cutInfo2.take(1).toInt + 1 + 3)               //RecordTime and its length and "MAP" dropped
+    val toTake1 = cutInfo3.take(2).toInt                                       //Map height
+    val toTake2 = cutInfo3.drop(2).take(2).toInt                               //Map length
+    val infoTrack = cutInfo3.take(toTake1 * toTake2 + 4)                       //Map info (map heigth, length and their product taken)
+    val infoLap = cutInfo3.drop(toTake1 * toTake2 + 4 + 3).dropRight(3).toInt  //One digit lap amount (map height, length and their product dropped, "LAP" dropped, "END" dropped
+    (infoTrack, infoLap)
   }
   
   //Reading the record names from info
   val (recordHolderName, recordTime) = {
-    val cutInfo = info.drop(13)
-    val toDrop = cutInfo.take(1).toInt
-    val recordHolder = cutInfo.drop(1).take(toDrop)
-    val cutInfo2 = cutInfo.drop(toDrop + 1)
-    val recordTimes = cutInfo2.drop(1).take(cutInfo2.take(1).toInt)
+    val cutInfo = info.drop(13)                                                //"FORMULAMAPREC" dropped
+    val toDrop = cutInfo.take(1).toInt                                         //RecordHolder name length
+    val recordHolder = cutInfo.drop(1).take(toDrop)                            //RecordHolder name (name length dropped, name length amount taken
+    val cutInfo2 = cutInfo.drop(toDrop + 1)                                    //RecordHolder name dropped
+    val toTake = cutInfo2.take(1).toInt                                        //RecordTime length
+    val recordTimes = cutInfo2.drop(1).take(toTake)                            //RecordTime (RecordTime length dropped, its amount taken)
     (recordHolder, recordTimes)
   }
   
   //Creating the race track
   val track = new RaceTrack(trackInfo)
+  
   
   val finishLine = track.finishLine.toVector
   
@@ -35,13 +43,16 @@ class Game(info: String, driverName1: String, driverName2: String) {
   var carInTurn = car1
   var carNotInTurn = car2
   
-  //Counts which turn it is
-  //Even number means its player 1's turn, an uneven number means its player 2's turn
-  var turn = 0
+
   
   //Tells whether the game has ended or not
   var isOver = false
   
+  //Tells who the victorious driver is
+  private var victoriousDriver: Option[Driver] = None
+  
+  
+  def victor = victoriousDriver
   
   //Plays a turn as in moves the car and returns an updated map
   //In more detail:
@@ -62,16 +73,20 @@ class Game(info: String, driverName1: String, driverName2: String) {
     
     track.drawMap(car1.position, car2.position)
     val returnMap = carNotInTurn.seekPossibilities(track.map)
+    val carInTurnFinished = carInTurn.gearManager.laps >= lapInfo
+    val carNotInTurnFinished = carNotInTurn.gearManager.laps >= lapInfo
     
     //Quits the game if a player has crossed the finish line and both players have played an equal number of turns
-    if ((carInTurn.gearManager.crossedFinishLine || carNotInTurn.gearManager.crossedFinishLine) && turn % 2 == 1) {
+    if ((carInTurnFinished || carNotInTurnFinished) && TurnCounter.turn % 2 == 1) {
       this.isOver = true
+      victoriousDriver = if (carInTurnFinished) Some(carInTurn.driver) else Some(carNotInTurn.driver)
     }
     
+    TurnCounter.advanceTurn
+    carInTurn = if (TurnCounter.turn % 2 == 0) car1 else car2
+    carNotInTurn = if (TurnCounter.turn % 2 == 0) car2 else car1
     
-    turn +=1
-    carInTurn = if (turn % 2 == 0) car1 else car2
-    carNotInTurn = if (turn % 2 == 0) car2 else car1
+    
     
     returnMap
   }

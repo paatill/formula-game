@@ -4,17 +4,17 @@ import org.scalatest._
 
 class GameTest extends FlatSpec {
   "trackInfo" should "have only the information for RaceTrack" in {
-    val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0302XPPPPYEND", "JIM", "MATTI")
+    val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0302XPPPPYLAP1END", "JIM", "MATTI")
     assert(game.trackInfo === "0302XPPPPY")
   }
   
   "Driver names" should "be what is read from the file." in {
-    val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0302XPPPPPYEND", "JIM", "MATTI")
+    val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0302XPPPPPYLAP1END", "JIM", "MATTI")
     assert(game.car1.driver.name === "JIM")
     assert(game.car2.driver.name === "MATTI")
   }
   "playTurn" should "return the correct map and should have correct car positions" in {
-    val game = new Game("FORMULAMAPREC3JIM5MATTIMAP1008TTTTTTTTTOOOOOOTTOOXOOOTTOOOOOOTTOOYOOOTTOOOOOOTTOOOOOOTTOOOOOOTTOOOOOOTTTTTTTTTTEND", "JIM", "MATTI")
+    val game = new Game("FORMULAMAPREC3JIM5MATTIMAP1008TTTTTTTTTOOOOOOTTOOXOOOTTOOOOOOTTOOYOOOTTOOOOOOTTOOOOOOTTOOOOOOTTOOOOOOTTTTTTTTTTLAP1END", "JIM", "MATTI")
     assert(game.car1.position === (3, 2))
     assert(game.car2.position === (3, 4))
     assert(game.track.map === Array(
@@ -44,7 +44,7 @@ class GameTest extends FlatSpec {
   }
   
   "car1.position" should "be the given one." in {
-    val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0305KPXPPPPKKPPPKPYEND", "JIM", "MATTI")
+    val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0305KPXPPPPKKPPPKPYLAP1END", "JIM", "MATTI")
     assert(game.car1.position === (2, 0))
     assert(game.car2.position === (4, 2))
   }

@@ -1,5 +1,5 @@
 package formulaPlay
-import scala.collection.mutable
+import scala.collection.mutable._
 import exceptions._
 import scala.math._
 
@@ -13,8 +13,12 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
   var gear: Gear = one
   var gearNumber = 1
   
-  //Tells whether the car has crossed the finish line
-  var crossedFinishLine = false
+  //Tells how many times the car has crossed the finish line
+  private var lapCount = 0
+  
+  val lapTimes = Buffer[Int]()
+  
+  def laps = lapCount
   
   //Changes gearNumber and calls for changeGear if necessary
   def changeGearNumber(change: Char): Unit = {
@@ -96,6 +100,7 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
     //Something to stop the loop from going on forever
     var continueLoop = true
     
+    var addLap = false
     
     while (continueLoop) {
       
@@ -135,13 +140,25 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
       
       //Checks if the car is crossing the finish line
       //If true, changes crossedFinishLine to true
-      for (tile <- finishLine) {
-        if (finalPosition == tile) {
-          crossedFinishLine = true
+      if (isTrueChange) {
+        for (tile <- finishLine) {
+          if (finalPosition == tile) {
+            addLap = true
+          }
         }
       }
     }
     
+    if (addLap) {
+      lapCount += 1
+      val round = TurnCounter.round
+      val lastLapTime = lapTimes.lift(lapTimes.length - 1) match {
+        case Some(lapTime) => lapTime
+        case None          => 0
+      }
+      lapTimes += (round - lastLapTime)
+      
+    }
     
     //Changes the gearManager back to its original state if no actual movement was intended
     if (!isTrueChange) {
@@ -149,7 +166,6 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
       this.changeGear
       gear.direction(0) = previousDirection._1
       gear.direction(1) = previousDirection._2
-      crossedFinishLine = false
     }
     
     finalPosition
