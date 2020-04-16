@@ -29,11 +29,11 @@ object GameGUI extends App {
     }
     println("\n")
     
-    while (!game.isOver) {
+    while (!game.gameOver) {
       println("It is your turn player " + (if (TurnCounter.turn % 2 == 0) player1Name else player2Name))
-      val gearChange = readLine("\nYour Gear is " + game.carInTurn.gearManager.gear.speed + ".\nType + to increase, - to decrease or = to keep the same gear.\n")(0)
-      val direction0 = game.carInTurn.gearManager.gear.direction(0)
-      val direction1 = game.carInTurn.gearManager.gear.direction(1)
+      val gearChange = readLine("\nYour Gear is " + game.inTurnCar.gearManager.gear.speed + ".\nType + to increase, - to decrease or = to keep the same gear.\n")(0)
+      val direction0 = game.inTurnCar.gearManager.gear.direction(0)
+      val direction1 = game.inTurnCar.gearManager.gear.direction(1)
       val directionChange = readLine("Your direction is (" + direction0 + ", " + direction1 + ").\nType 1 for clockwise, -1 for counterclockwise or 0 to keep it same.\n").toInt
       println("\n\nTrack record by " + game.recordHolderName + " is " + game.recordTime + " rounds.\n" + "Current situation:\nRound " + (TurnCounter.turn / 2) + "\n")
       for (line <- game.playTurn(gearChange, directionChange)) {

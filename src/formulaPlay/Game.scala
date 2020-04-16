@@ -39,18 +39,19 @@ class Game(info: String, driverName1: String, driverName2: String) {
   val car2 = new Car(Driver(driverName2), track.car2Pos, 'B', finishLine)
   
   //Marking which car is in turn and which isn't
-  var carInTurn = car1
-  var carNotInTurn = car2
+  private var carInTurn = car1
+  private var carNotInTurn = car2
+  def inTurnCar = carInTurn
+  def notInTurnCar = carNotInTurn
   
 
   
   //Tells whether the game has ended or not
-  var isOver = false
+  private var isOver = false
+  def gameOver = isOver
   
   //Tells who the victorious driver is
   private var victoriousDriver: Option[Driver] = None
-  
-  
   def victor = victoriousDriver
   
   //Plays a turn as in moves the car and returns an updated map
