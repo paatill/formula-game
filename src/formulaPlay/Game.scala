@@ -1,5 +1,4 @@
 package formulaPlay
-import scala.swing._
 import exceptions._
 
 class Game(info: String, driverName1: String, driverName2: String) {

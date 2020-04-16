@@ -9,7 +9,7 @@ object GameGUI extends App {
   
   private def run() = {
     
-    val filename = "/Users/rekowenell/Documents/RaceTrackTest01.txt"
+    val filename = "/Users/rekowenell/git/formula-peli/maps/RaceTrackTest01.txt"
     val file = Source.fromFile(filename)
     val pureFileInfo = file.toVector.mkString
     val fileInfo: String = pureFileInfo.filter( _ != '\n' )

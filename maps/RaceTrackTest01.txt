@@ -1,0 +1,45 @@
+FORMULAMAP
+REC5PEKKA11
+MAP4040
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+        F                               
+        F                               
+        F                               
+        F     Y                         
+        F                               
+FFFFFFFFFX                              
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+LAP1
+END
