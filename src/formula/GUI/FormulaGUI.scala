@@ -2,6 +2,8 @@ package formula.GUI
 import formulaPlay._
 import scala.io.Source
 import java.io.File
+import java.io.BufferedWriter
+import java.io.FileWriter
 import scala.swing._
 import scala.swing.event._
 import javax.imageio.ImageIO
@@ -64,10 +66,14 @@ object FormulaGUI extends SimpleSwingApplication {
       fileChooser.selectedFile
     }
     
-    //
+    val filePath = selectedFile.getAbsolutePath
+    
+    //Information from the file
     val file = Source.fromFile(selectedFile)
     
+    //Information from the file in string
     val pureFileInfo = file.toVector.mkString
+    //Information from the file without line breaks
     val fileInfo: String = pureFileInfo.filter( _ != '\n' )
     file.close
   
@@ -90,38 +96,36 @@ object FormulaGUI extends SimpleSwingApplication {
     //Sets up a BoxPanel for the buttons the player can interact with
     //Includes buttons for choosing gearChange, choosing direction change, and confirming the changes
     //Also sets the application up to listen to those buttons
-    val buttons = new BoxPanel(Orientation.Horizontal)
+    val buttonGroup = new ButtonGroup
     val upGearButton = Button("Up the Gear") { updateCarInfo('+', directionChange) }
-      buttons.contents += upGearButton
-      this.listenTo(upGearButton)
+      buttonGroup.buttons += upGearButton
     val keepGearButton = Button("Keep the same Gear") { updateCarInfo('=', directionChange) }
-      buttons.contents += keepGearButton
-      this.listenTo(keepGearButton)
+      buttonGroup.buttons += keepGearButton
     val downGearButton = Button("Down the Gear") { updateCarInfo('-', directionChange) }
-      buttons.contents += downGearButton
-      this.listenTo(downGearButton)
+      buttonGroup.buttons += downGearButton
     val clockwiseDirectionButton = Button("Turn clockwise") { updateCarInfo(gearChange, 1) }
-      buttons.contents += clockwiseDirectionButton
-      this.listenTo(clockwiseDirectionButton)
+      buttonGroup.buttons += clockwiseDirectionButton
     val keepDirectionButton = Button("Keep the current direction") { updateCarInfo(gearChange, 0) }
-      buttons.contents += keepDirectionButton
-      this.listenTo(keepDirectionButton)
+      buttonGroup.buttons += keepDirectionButton
     val counterClockwiseDirectionButton = Button("Turn counterClockwise") { updateCarInfo(gearChange, -1) }
-      buttons.contents += counterClockwiseDirectionButton
-      this.listenTo(counterClockwiseDirectionButton)
+      buttonGroup.buttons += counterClockwiseDirectionButton
+      
     val driveButton = Button("Confirm choices and drive") {
-        //Advances the game one turn
-        game.playTurn(gearChange, directionChange)
-        //Draws the new game map into picture
-        map(game.track.map, g)
-        //Sets a new icon based on the updated picture into mapLabel
-        mapLabel.icon = new ImageIcon(picture)
-        //Sets the changes back to neutral for the next player
-        updateCarInfo('=', 0)
+        map(game.playTurn(gearChange, directionChange), g)     //Advances the game one turn and draws the new game map into picture
+        mapLabel.icon = new ImageIcon(picture)                 //Sets a new icon based on the updated picture into mapLabel
+        updateCarInfo('=', 0)                                  //Sets the changes back to neutral for the next player
+        
+        if (game.over) {
+          executeGameEnding
+        }
       }
-      buttons.contents += driveButton
+      buttonGroup.buttons += driveButton
       this.listenTo(driveButton)
-  
+      
+      val buttons = new BoxPanel(Orientation.Horizontal)
+      buttons.contents ++= buttonGroup.buttons
+      
+    
   
     
   //Defines what happens when a particular reaction is triggered
@@ -148,24 +152,21 @@ object FormulaGUI extends SimpleSwingApplication {
       }
       
     }*/
-    
+      
     //Creates a BufferedImage the size of the game map
     val picture = new BufferedImage(16 * game.track.map(0).length, 16 * game.track.map.length, BufferedImage.TYPE_INT_ARGB)
-    //The picture's graphics
-    val g = picture.getGraphics.asInstanceOf[Graphics2D]
-    //Set up the right graphics
-    map(game.track.map, g)
-    //Create the label where the image will be
-    val mapLabel = new Label
-    //Set the image as an icon on lable
-    mapLabel.icon = new ImageIcon(picture)
+      
+    val g = picture.getGraphics.asInstanceOf[Graphics2D]     //The picture's graphics
+    map(game.track.map, g)                                   //Set up the right graphics
+    val mapLabel = new Label                                 //Create the label where the image will be
+    mapLabel.icon = new ImageIcon(picture)                   //Set the image as an icon on lable
     
   
-    //A BoxPanel with all the game's content; the content of the Frame
+    //BoxPanel with all the game's content; the content of the Frame
     val allItems = {
     val a = new BoxPanel(Orientation.Vertical)
       a.contents += carInfo
-      a.contents += mapLabel //theMap
+      a.contents += mapLabel
       a.contents += buttons
       a
     }
@@ -193,19 +194,28 @@ object FormulaGUI extends SimpleSwingApplication {
     //Takes an array (map of the race track) and graphics as parameters
     //Changes then those graphics as the chracterMap of the array instruct
     def map(track: Array[Array[Char]], g: Graphics2D) = {
-      
+      val trackLength = track(0).length
+      val trackWidth = track.length
       
       //The loops that goes through all the characters in the array
       for {
         j <- 0 until track.length
         i <- 0 until track(0).length
       } {
+        setChosenPartOfTrack(track, i, j)
+      }
+      
+      
+      def setChosenPartOfTrack(trackUsed: Array[Array[Char]], i: Int, j: Int): Unit = {
         //The method matching the the character is chosen
-        track(j)(i) match {
+        trackUsed(j)(i) match {
           case 'T' => wall(i, j)
           case 'F' => finishLine(i, j)
           case 'A' => carA(i, j)
           case 'B' => carB(i, j)
+          case '-' => downGear(i, j)
+          case '+' => upGear(i, j)
+          case '=' => keepGear(i, j)
           case _   => road(i, j)
         }
         
@@ -214,6 +224,18 @@ object FormulaGUI extends SimpleSwingApplication {
         g.fillRect(i * 16, j * 16, 16, 1)
         g.fillRect(i * 16, j * 16, 1, 16)
       }
+      
+      
+      def searchMapProper(trackUsed: Array[Array[Char]], i: Int, j: Int) = {
+        trackUsed(j)(i) match {
+          case 'T' => wall(i, j)
+          case 'F' => finishLine(i, j)
+          case 'A' => carA(i, j)
+          case 'B' => carB(i, j)
+          case _   => road(i, j)
+        }
+      }
+      
       
       //Methods each drawing their specified square
       
@@ -242,13 +264,81 @@ object FormulaGUI extends SimpleSwingApplication {
         g.fillRect(i * 16, j * 16, 16, 16)
       }
       
+      def upGear(i: Int, j: Int) = {
+        searchMapProper(game.track.map, i, j)
+        g.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
+        g.fillRect(i * 16, j * 16 + 8, 16, 1)
+        g.fillRect(i * 16 + 8, j * 16, 1, 16)
+      }
+      
+      def keepGear(i: Int, j: Int) = {
+        searchMapProper(game.track.map, i, j)
+        g.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
+        g.fillRect(i * 16, j * 16 + 7, 1, 16)
+        g.fillRect(i * 16, j * 16 + 9, 1, 16)
+      }
+      
+      def downGear(i: Int, j: Int) = {
+        //searchMapProper(game.track.map, i, j)
+        g.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
+        //g.fillRect(i * 16, j * 16 + 8, 16, 1)
+        g.fillRect(i * 16 + 8, j * 16, 1, 16)
+      }
+      
+      def carATracks(i: Int, j: Int) = {
+        road(i, j)
+        g.setColor(Color.blue)
+        
+      }
+      
+      
+      
+      
+      
     }
+    
+    
+    
+    def executeGameEnding {
+      buttonGroup.buttons.foreach(setEmptyAction(_))
+      if ((TurnCounter.turn / 2) < game.recordTime.toInt) {
+        setNewRecordInFile()
+      }
+    }
+    
+    
+    def setEmptyAction(button: AbstractButton) = {
+        button.action_=(new Action(button.text) { def apply = Unit })
+      }
+    
+    def setNewRecordInFile() = {
+      val recordDriverName: String = game.victor match {
+        case Some(driver) => driver.name.toUpperCase
+        case None         => "MYSTERY DRIVER"
+      }
+      val record = (TurnCounter.round)
+      val newRecordLength = record.toString.length
+      val afterREC = pureFileInfo.drop(14)
+      val recordNameLength = afterREC.take(1).toInt
+      val afterRecordName = afterREC.drop(recordNameLength + 1)
+      val recordLength = afterRecordName.take(1).toInt
+      val afterRecord = afterRecordName.drop(recordLength + 1)
+      val newInfo = "FORMULAMAP\nREC" + recordDriverName.length + recordDriverName + newRecordLength + record + afterRecord
+      val newFile = new File(filePath)
+      val bufferedWriter = new BufferedWriter(new FileWriter(newFile))
+      bufferedWriter.write(newInfo)
+      bufferedWriter.close
+  }
+    
+    
+    
     
   }
   
   
   
-  def top = new MainFrame {
+  
+  def top() = new MainFrame {
     title    = "AFRO POLICE CAR RACER"
     contents = gamePanel
     size     = new Dimension(1400, 800)

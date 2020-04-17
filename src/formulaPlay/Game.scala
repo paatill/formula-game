@@ -48,7 +48,7 @@ class Game(info: String, driverName1: String, driverName2: String) {
   
   //Tells whether the game has ended or not
   private var isOver = false
-  def gameOver = isOver
+  def over = isOver
   
   //Tells who the victorious driver is
   private var victoriousDriver: Option[Driver] = None

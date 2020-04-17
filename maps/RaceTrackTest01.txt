@@ -41,5 +41,5 @@ FFFFFFFFFX
                                         
                                         
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-LAP1
+LAP2
 END
