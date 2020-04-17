@@ -1,13 +1,14 @@
 package formula.GUI
 import formulaPlay._
 import scala.io.Source
-import java.io._
+import java.io.File
 import scala.swing._
 import scala.swing.event._
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 import java.awt.{Graphics2D, Color}
 import javax.swing.ImageIcon
+import javax.swing.filechooser._
 
 
 
@@ -16,30 +17,55 @@ object FormulaGUI extends SimpleSwingApplication {
   
   
   
-  val setUpPanel = new BoxPanel(Orientation.Vertical) {
-    
-  }
   
   
   
   val gamePanel = new BoxPanel(Orientation.Vertical) {
+    
+    //Set up player names
+    val player1Name = getPlayerName('1')
+    val player2Name = getPlayerName('2')
+    
+    //Calls a Dialog where the players will enter their names
+    def getPlayerName(playerNumber: Char): String = {
+      //This variable tracks whether a name of correct name is typed in the following Dialog
+      //Must be true for the following loop to end
+      var nameLengthRight = false
+      var playerName = ""
       
-    
-    
-    
-    val player1Name = "car1"
-    val player2Name = "car2"
-  
-    //File is read and th information is saved to fileInfo as String
-    val filename = "/Users/rekowenell/git/formula-peli/maps/RaceTrackTest01.txt"
-    val file = Source.fromFile(filename)
-    
-    val fileChooser = new FileChooser
-    var fileIsChosen = false
-    var selectedFile = new File("/Users/rekowenell/git/formula-peli/maps/RaceTrackTest01.txt")
-    while (!fileIsChosen) {
-      if (fileChooser.showOpenDialog(new Dialog) == FileChooser.Result.Approve) fileChooser.selectedFile; fileIsChosen = true
+      //Creates new dialogs asking for a player's name until they give one that is no longer than 9 characters
+      while(!nameLengthRight) {
+        val answer = Dialog.showInput[String](new Dialog, "Type your name here, player " + playerNumber + ". It may not be more than 9 characters long.", initial = "")
+        answer match {
+          case Some(name) if name.length <= 9 => playerName = name; nameLengthRight = true
+          case _ => Dialog.showMessage(new Dialog, "The name you typed was too long!")
+        }
+      }
+      playerName
     }
+    
+    //Filter that only accepts a text file
+    val fileFilter = new FileFilter {
+      def accept(pathname: File): Boolean = pathname.getName.endsWith(".txt")
+      def getDescription: String = "Only .txt files"
+    }
+  
+    //File is read and the information is saved to fileInfo as String
+    val fileChooser = new FileChooser
+    fileChooser.fileFilter_=(fileFilter)
+    
+    //A Dialog asks players to choose a file for the map
+    //If they do not choose a map, another Dialog will pop up, demanding them to make the choice
+    val selectedFile = {
+      var fileIsChosen = false
+      while (!fileIsChosen) {
+        if (fileChooser.showOpenDialog(new Dialog) == FileChooser.Result.Approve) fileIsChosen = true
+      }
+      fileChooser.selectedFile
+    }
+    
+    //
+    val file = Source.fromFile(selectedFile)
     
     val pureFileInfo = file.toVector.mkString
     val fileInfo: String = pureFileInfo.filter( _ != '\n' )
