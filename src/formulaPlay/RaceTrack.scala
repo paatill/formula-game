@@ -16,7 +16,7 @@ class RaceTrack(mapInfo: String) {
   
   //The original map read from the file
   //Also sets the starting positions for the cars
-  val firstMap: Array[Array[Char]] = {
+  val map: Array[Array[Char]] = {
     val hight = mapInfo.take(2).toInt
     val width = mapInfo.drop(2).take(2).toInt
     val track = Array.ofDim[Char](hight, width)
@@ -57,8 +57,10 @@ class RaceTrack(mapInfo: String) {
     track
   }
   
-  //The map being showed the players at the moment
-  val map = firstMap
+  val cloneMap = map.clone
+  val emptyMap = cloneMap.map(_.clone)
+  emptyMap.foreach(_.map(x => if (x == 'A' || x == 'B') ' ' else x))
+  
   
   
   

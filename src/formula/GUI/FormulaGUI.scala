@@ -24,9 +24,11 @@ object FormulaGUI extends SimpleSwingApplication {
   
   val gamePanel = new BoxPanel(Orientation.Vertical) {
     
+    val squareSide = 16
+    
     //Set up player names
-    val player1Name = getPlayerName('1')
-    val player2Name = getPlayerName('2')
+    val player1Info = getPlayerName('1')
+    val player2Info = getPlayerName('2')
     
     //Calls a Dialog where the players will enter their names
     def getPlayerName(playerNumber: Char): String = {
@@ -37,10 +39,38 @@ object FormulaGUI extends SimpleSwingApplication {
       
       //Creates new dialogs asking for a player's name until they give one that is no longer than 9 characters
       while(!nameLengthRight) {
-        val answer = Dialog.showInput[String](new Dialog, "Type your name here, player " + playerNumber + ". It may not be more than 9 characters long.", initial = "")
-        answer match {
-          case Some(name) if name.length <= 9 => playerName = name; nameLengthRight = true
-          case _ => Dialog.showMessage(new Dialog, "The name you typed was too long!")
+        val howToChooseDriver = Dialog.showConfirmation(new Dialog, "Do you want to choose an existing driver?", optionType =Dialog.Options.YesNo)
+        
+        if (howToChooseDriver == Dialog.Result.Yes) {
+          val driverFileFilter = new FileFilter {
+          def accept(pathname: File): Boolean = pathname.getName.endsWith(".txt")
+          def getDescription: String = "Only .txt files"
+          }
+          val driverFileChooser = new FileChooser(new File(System.getProperty("user.dir") + "/drivers"))
+          driverFileChooser.fileFilter_=(driverFileFilter)
+          val driverSelectedFile = {
+            var driverFileIsChosen = false
+            while (!driverFileIsChosen) {
+              val aDialog = driverFileChooser.showOpenDialog(new Dialog)
+              if (aDialog == FileChooser.Result.Approve) driverFileIsChosen = true
+            }
+            driverFileChooser.selectedFile
+          }
+          
+          val driverFile = Source.fromFile(driverSelectedFile)
+          val driverFileInfo = driverFile.mkString
+          driverFile.close
+          val driverNameLength = driverFileInfo.take(2).toInt
+          playerName = driverFileInfo
+          nameLengthRight = true
+          
+          
+        } else {
+          val answer = Dialog.showInput[String](new Dialog, "Type your name here, player " + playerNumber + ". It may not be more than 24 characters long.", initial = "")
+          answer match {
+            case Some(name) if name.length <= 24 => playerName = ((if (name.length < 10) "0" else "") + name.filter(_ != ' ').length + name.filter(_ != ' ') + "00LAPTIMES"); nameLengthRight = true
+            case _ => Dialog.showMessage(new Dialog, "The name you typed was too long!")
+          }
         }
       }
       playerName
@@ -53,7 +83,7 @@ object FormulaGUI extends SimpleSwingApplication {
     }
   
     //File is read and the information is saved to fileInfo as String
-    val fileChooser = new FileChooser
+    val fileChooser = new FileChooser(new File(System.getProperty("user.dir") + "/maps"))
     fileChooser.fileFilter_=(fileFilter)
     
     //A Dialog asks players to choose a file for the map
@@ -78,21 +108,22 @@ object FormulaGUI extends SimpleSwingApplication {
     file.close
   
     //A new game is created
-    val game = new Game(fileInfo, player1Name, player2Name)
+    val game = new Game(fileInfo, player1Info, player2Info)
     val array = game.track.map
-  
-  
-  
+    
+    
+    
     //Store currently chosen gear and direction changes
     var gearChange: Char = '='
     var directionChange: Int = 0
     
-  
-  
+    
+    
     //Label of car information
     //Includes information about currently chosen gear and direction change
     val carInfo = new Label("The gear change is: " + gearChange + "\nThe direction change is : " + directionChange + "\nCarInTurn: " + game.inTurnCar.driver.name)
-  
+    
+    
     //Sets up a BoxPanel for the buttons the player can interact with
     //Includes buttons for choosing gearChange, choosing direction change, and confirming the changes
     //Also sets the application up to listen to those buttons
@@ -154,7 +185,7 @@ object FormulaGUI extends SimpleSwingApplication {
     }*/
       
     //Creates a BufferedImage the size of the game map
-    val picture = new BufferedImage(16 * game.track.map(0).length, 16 * game.track.map.length, BufferedImage.TYPE_INT_ARGB)
+    val picture = new BufferedImage(squareSide * game.track.map(0).length, squareSide * game.track.map.length, BufferedImage.TYPE_INT_ARGB)
       
     val g = picture.getGraphics.asInstanceOf[Graphics2D]     //The picture's graphics
     map(game.track.map, g)                                   //Set up the right graphics
@@ -213,16 +244,18 @@ object FormulaGUI extends SimpleSwingApplication {
           case 'F' => finishLine(i, j)
           case 'A' => carA(i, j)
           case 'B' => carB(i, j)
+          case 'a' => carAWasHere(i, j)
+          case 'b' => carBWasHere(i, j)
           case '-' => downGear(i, j)
           case '+' => upGear(i, j)
           case '=' => keepGear(i, j)
-          case _   => road(i, j)
+          case _   => road(i, j) 
         }
         
         //Lines separating the different squares are drawn
         g.setColor(Color.black)
-        g.fillRect(i * 16, j * 16, 16, 1)
-        g.fillRect(i * 16, j * 16, 1, 16)
+        g.fillRect(i * squareSide, j * squareSide, squareSide, 1)
+        g.fillRect(i * squareSide, j * squareSide, 1, squareSide)
       }
       
       
@@ -230,8 +263,8 @@ object FormulaGUI extends SimpleSwingApplication {
         trackUsed(j)(i) match {
           case 'T' => wall(i, j)
           case 'F' => finishLine(i, j)
-          case 'A' => carA(i, j)
-          case 'B' => carB(i, j)
+          case 'A' => road(i, j)
+          case 'B' => road(i, j)
           case _   => road(i, j)
         }
       }
@@ -241,55 +274,149 @@ object FormulaGUI extends SimpleSwingApplication {
       
       def wall(i: Int, j: Int) = {
         g.setColor(Color.gray)
-        g.fillRect(i * 16, j * 16, 16, 16)
+        g.fillRect(i * squareSide, j * squareSide, squareSide, squareSide)
       }
       
       def carA(i: Int, j: Int) = {
-        g.setColor(Color.blue)
-        g.fillRect(i * 16, j * 16, 16, 16)
+        //g.setColor(Color.green)
+        //g.fillRect(i * squareSide, j * squareSide, squareSide, squareSide)
+        val upMiddle = Vector(
+          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n'),
+          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'B', 'n', 'n', 'n', 'n', 'n', 'n', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'n', 'n', 'n', 'n'),
+          Vector('n', 'n', 'n', 'n', 'n', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'n', 'n', 'n', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'D', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'D', 'D', 'D', 'n'),
+          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'n', 'n', 'n', 'n'),
+          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n')
+        )
+        val temporaryDownMiddle = upMiddle.toBuffer
+        temporaryDownMiddle += upMiddle(0)
+        val downMiddle = temporaryDownMiddle.reverse
+        downMiddle.drop(1)
+        
+        
+        val middleRight = upMiddle.toArray.map(_.toArray)
+        for {
+          j <- middleRight.indices
+          i <- middleRight(0).indices
+        } {
+          middleRight(j)(i) = upMiddle(i)(j)
+        }
+        
+        val middleLeft = middleRight.clone().map(_.reverse)
+        for {
+          j <- middleLeft.indices
+          i <- middleLeft(0).indices
+        } {
+          println("j,i :" + middleLeft(j)(i))
+          middleLeft(j)((i + 1) % 16) = middleLeft(j)(i)
+          
+          println("j,i + 1 % 16 :" + middleLeft(j)((i + 1) % 16))
+        }
+        
+        for (line <- middleLeft) {
+        var string = ""
+        line.foreach( string += _ )
+        println(string)
+    }
+        
+        searchMapProper(game.track.emptyMap, i, j)
+        for {
+          x <- middleLeft(0).indices
+          y <- middleLeft.indices
+        } {
+          middleLeft(y)(x) match {
+            case 'D' => g.setColor(Color.black); g.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
+            case 'B' => g.setColor(Color.blue); g.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
+            case _ => Unit
+          }
+          
+        }
+      }
+      
+      def carAWasHere(i: Int, j: Int) = {
+        searchMapProper(game.track.emptyMap, i, j)
+        g.setColor(Color.cyan)
+        g.fillArc(i * squareSide + 4, j * squareSide + 4, 8, 8, 0, 360)
       }
       
       def carB(i: Int, j: Int) = {
         g.setColor(Color.red)
-        g.fillRect(i * 16, j * 16, 16, 16)
+        g.fillRect(i * squareSide, j * squareSide, squareSide, squareSide)
+      }
+      
+      def carBWasHere(i: Int, j: Int) = {
+        searchMapProper(game.track.emptyMap, i, j)
+        g.setColor(Color.magenta)
+        g.fillArc(i * squareSide + 4, j * squareSide + 4, 8, 8, 0, 360)
       }
       
       def finishLine(i: Int, j: Int) = {
-        g.setColor(Color.white)
-        g.fillRect(i * 16, j * 16, 16, 16)
+        val baseILength = i * squareSide
+        val baseJLength = j * squareSide
+        for {
+          x <- 0 until 5
+          y <- 0 until 5
+        } {
+          if (x % 2 == y % 2) {
+            g.setColor(new Color(155, 135, 12))
+            g.fillRect(baseILength + (x * 3), baseJLength + (y * 3), 3, 3)
+          } else {
+            g.setColor(Color.white)
+            g.fillRect(baseILength + (x * 3), baseJLength + (y * 3), 3, 3)
+          }
+        }
       }
       
       def road(i: Int, j: Int) = {
         g.setColor(Color.green)
-        g.fillRect(i * 16, j * 16, 16, 16)
+        g.fillRect(i * squareSide, j * squareSide, squareSide, squareSide)
+        /*val baseILength = i * squareSide
+        val baseJLength = j * squareSide
+        for {
+          x <- 0 until 16
+          y <- 0 until 16
+        } {
+          if (x % 2 == y % 2) {
+            g.setColor(Color.LIGHT_GRAY)
+            g.fillRect(baseILength + x, baseJLength + y, 1, 1)
+          } else {
+            g.setColor(Color.DARK_GRAY)
+            g.fillRect(baseILength + x, baseJLength + y, 1, 1)
+          }
+        }*/
       }
       
       def upGear(i: Int, j: Int) = {
         searchMapProper(game.track.map, i, j)
         g.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
-        g.fillRect(i * 16, j * 16 + 8, 16, 1)
-        g.fillRect(i * 16 + 8, j * 16, 1, 16)
+        g.fillRect(i * squareSide + 2, j * squareSide + 7, squareSide - 4, 2)
+        g.fillRect(i * squareSide + 7, j * squareSide + 2, 2, squareSide - 4)
       }
       
       def keepGear(i: Int, j: Int) = {
         searchMapProper(game.track.map, i, j)
         g.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
-        g.fillRect(i * 16, j * 16 + 7, 1, 16)
-        g.fillRect(i * 16, j * 16 + 9, 1, 16)
+        g.fillRect(i * squareSide + 2, j * squareSide + 5, squareSide - 4, 2)
+        g.fillRect(i * squareSide + 2, j * squareSide + 9, squareSide - 4, 2)
       }
       
       def downGear(i: Int, j: Int) = {
-        //searchMapProper(game.track.map, i, j)
+        searchMapProper(game.track.map, i, j)
         g.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
-        //g.fillRect(i * 16, j * 16 + 8, 16, 1)
-        g.fillRect(i * 16 + 8, j * 16, 1, 16)
+        g.fillRect(i * squareSide + 2, j * squareSide + 7, squareSide - 4, 2)
       }
       
-      def carATracks(i: Int, j: Int) = {
-        road(i, j)
-        g.setColor(Color.blue)
-        
-      }
+      
       
       
       
@@ -304,6 +431,106 @@ object FormulaGUI extends SimpleSwingApplication {
       if ((TurnCounter.turn / 2) < game.recordTime.toInt) {
         setNewRecordInFile()
       }
+      val saveDrivers = Dialog.showConfirmation(new Dialog, "Do you wish to save the information about the drivers?", optionType=Dialog.Options.YesNo)
+      if (saveDrivers == Dialog.Result.Yes) {
+        saveDriver(game.car1)
+        saveDriver(game.car2)
+      }
+      
+    }
+    
+    def saveDriver(car: Car) = {
+      //Driver of the car
+      val driver = car.driver
+      
+      //Driver's information
+      var previousInfo = driver.info
+      //The new information to be saved
+      var newInfo = ""
+      
+      //A method for storing from previousInfo into newInfo and deleting the stored info from previousInfo
+      def storeDrop(amount: Int) = {
+        newInfo = newInfo + previousInfo.take(amount)
+        previousInfo = previousInfo.drop(amount)
+      }
+      
+      //Adds a single line
+      def addLine() = {
+        newInfo = newInfo + "\n"
+      }
+      
+      //Saves and storeDrops the first two characters who determine the length of the name
+      val nameLength = previousInfo.take(2).toInt
+      storeDrop(2)
+      addLine()
+      storeDrop(nameLength)
+      val howManyTracks = previousInfo.take(2).toInt
+      addLine()
+      
+      storeDrop(2)
+      var isNewTrack = true
+      addLine()
+      
+      storeDrop(8)
+      addLine()
+      
+      
+      while (previousInfo != "") {
+        val trackNameLength = previousInfo.take(2).toInt
+        val trackName = previousInfo.take(trackNameLength)
+        storeDrop(trackNameLength)
+        val trackLaps = previousInfo.take(2).toInt
+        storeDrop(2)
+        
+        if (trackName == filePath.reverse.takeWhile(_ != '/').reverse.dropRight(4)) {
+          for (lap <- car.gearManager.lapTimes) {
+            val lapTime: String = lap.toString.length match {
+              case 0 => "000"
+              case 1 => "00" + lap
+              case 2 => "0" + lap
+              case 3 => lap.toString
+              case _ => "999"
+            }
+            previousInfo.drop(3)
+            newInfo = newInfo + lapTime
+            addLine()
+          }
+          isNewTrack = false
+        } else {
+          for (a <- 1 to trackLaps) {
+            storeDrop(3)
+            addLine()
+          }
+        }
+      }
+      
+      if (isNewTrack) {
+        val trackName = filePath.reverse.takeWhile(_ != '/').reverse.dropRight(4)
+        val trackNameLength = trackName.length
+        newInfo += trackNameLength
+        addLine()
+        newInfo += trackName
+        addLine()
+        newInfo += game.lapInfo
+        for (lap <- car.gearManager.lapTimes) {
+          val lapTime = lap.toString.length match {
+            case 0 => "000"
+            case 1 => "00" + lap
+            case 2 => "0" + lap
+            case 3 => lap
+            case _ => "999"
+          }
+          addLine()
+          newInfo += lapTime
+
+        }
+      }
+      
+      
+      val newFile = new File(System.getProperty("user.dir") + "/drivers/" + driver.name + ".txt")
+      val bufferedWriter = new BufferedWriter(new FileWriter(newFile))
+      bufferedWriter.write(newInfo)
+      bufferedWriter.close
     }
     
     
@@ -339,196 +566,10 @@ object FormulaGUI extends SimpleSwingApplication {
   
   
   def top() = new MainFrame {
-    title    = "AFRO POLICE CAR RACER"
+    title    = "CAR RACER"
     contents = gamePanel
     size     = new Dimension(1400, 800)
-      /*
-    
-    
-    
-    val player1Name = "car1"
-    val player2Name = "car2"
-  
-    //File is read and th information is saved to fileInfo as String
-    val filename = "/Users/rekowenell/git/formula-peli/maps/RaceTrackTest01.txt"
-    val file = Source.fromFile(filename)
-    val pureFileInfo = file.toVector.mkString
-    val fileInfo: String = pureFileInfo.filter( _ != '\n' )
-    file.close
-  
-    //A new game is created
-    val game = new Game(fileInfo, player1Name, player2Name)
-    val array = game.track.map
-  
-  
-  
-    //Store currently chosen gear and direction changes
-    var gearChange: Char = '='
-    var directionChange: Int = 0
-  
-  
-  
-    //Label of car information
-    //Includes information about currently chosen gear and direction change
-    val carInfo = new Label("The gear change is: " + gearChange + "\nThe direction change is : " + directionChange + "\nCarInTurn: " + game.carInTurn.driver.name)
-  
-    //Sets up a BoxPanel for the buttons the player can interact with
-    //Includes buttons for choosing gearChange, choosing direction change, and confirming the changes
-    //Also sets the application up to listen to those buttons
-    val buttons = new BoxPanel(Orientation.Horizontal)
-    val upGearButton = Button("Up the Gear") { updateCarInfo('+', directionChange) }
-      buttons.contents += upGearButton
-      this.listenTo(upGearButton)
-    val keepGearButton = Button("Keep the same Gear") { updateCarInfo('=', directionChange) }
-      buttons.contents += keepGearButton
-      this.listenTo(keepGearButton)
-    val downGearButton = Button("Down the Gear") { updateCarInfo('-', directionChange) }
-      buttons.contents += downGearButton
-      this.listenTo(downGearButton)
-    val clockwiseDirectionButton = Button("Turn clockwise") { updateCarInfo(gearChange, 1) }
-      buttons.contents += clockwiseDirectionButton
-      this.listenTo(clockwiseDirectionButton)
-    val keepDirectionButton = Button("Keep the current direction") { updateCarInfo(gearChange, 0) }
-      buttons.contents += keepDirectionButton
-      this.listenTo(keepDirectionButton)
-    val counterClockwiseDirectionButton = Button("Turn counterClockwise") { updateCarInfo(gearChange, -1) }
-      buttons.contents += counterClockwiseDirectionButton
-      this.listenTo(counterClockwiseDirectionButton)
-    val driveButton = Button("Confirm choices and drive") {
-        //Advances the game one turn
-        game.playTurn(gearChange, directionChange)
-        //Draws the new game map into picture
-        map(game.track.map, g)
-        //Sets a new icon based on the updated picture into mapLabel
-        mapLabel.icon = new ImageIcon(picture)
-        //Sets the changes back to neutral for the next player
-        updateCarInfo('=', 0)
-      }
-      buttons.contents += driveButton
-      this.listenTo(driveButton)
-  
-  
-    
-  //Defines what happens when a particular reaction is triggered
-    /*this.reactions += {
-      case clickEvent: ButtonClicked if clickEvent.source == upGearButton => updateCarInfo('+', directionChange)
-      case clickEvent: ButtonClicked if clickEvent.source == keepGearButton => updateCarInfo('=', directionChange)
-      case clickEvent: ButtonClicked if clickEvent.source == downGearButton => updateCarInfo('-', directionChange)
-      case clickEvent: ButtonClicked if clickEvent.source == clockwiseDirectionButton => updateCarInfo(gearChange, 1)
-      case clickEvent: ButtonClicked if clickEvent.source == keepDirectionButton => updateCarInfo(gearChange, 0)
-      case clickEvent: ButtonClicked if clickEvent.source == counterClockwiseDirectionButton => updateCarInfo(gearChange, -1)
-      
-        
-      case clickEvent: ButtonClicked if clickEvent.source == driveButton => {
-             
-        //Advances the game one turn
-        game.playTurn(gearChange, directionChange)
-        //Draws the new game map into picture
-        map(game.track.map, g)
-        //Sets a new icon based on the updated picture into mapLabel
-        mapLabel.icon = new ImageIcon(picture)
-        
-        //Sets the changes back to neutral for the next player
-        updateCarInfo('=', 0)
-      }
-      
-    }*/
-    
-    //Creates a BufferedImage the size of the game map
-    val picture = new BufferedImage(16 * game.track.map(0).length, 16 * game.track.map.length, BufferedImage.TYPE_INT_ARGB)
-    //The picture's graphics
-    val g = picture.getGraphics.asInstanceOf[Graphics2D]
-    //Set up the right graphics
-    map(game.track.map, g)
-    //Create the label where the image will be
-    val mapLabel = new Label
-    //Set the image as an icon on lable
-    mapLabel.icon = new ImageIcon(picture)
-    
-  
-    //A BoxPanel with all the game's content; the content of the Frame
-    val allItems = {
-    val a = new BoxPanel(Orientation.Vertical)
-      a.contents += carInfo
-      a.contents += mapLabel //theMap
-      a.contents += buttons
-      a
-    }
-    
-    
-    //Sets up the first title, contents and size of the Frame
-    title    = "AFRO POLICE CAR RACER"
-    contents = allItems
-    size     = new Dimension(1400, 800)
-    
-    
-    
-    
-    //Updates gearChange and directionChange to match the character and integer given as parameters
-    //Also changes carInfo's text to match the new values
-    def updateCarInfo(newGearChange: Char, newDirectionChange: Int) = {
-      gearChange = newGearChange
-      directionChange = newDirectionChange
-      carInfo.text = "The gear change is: " + gearChange + "\nThe direction change is : " + directionChange
-    }
-    
-    
-    
-    
-    //Takes an array (map of the race track) and graphics as parameters
-    //Changes then those graphics as the chracterMap of the array instruct
-    def map(track: Array[Array[Char]], g: Graphics2D) = {
-      
-      
-      //The loops that goes through all the characters in the array
-      for {
-        j <- 0 until track.length
-        i <- 0 until track(0).length
-      } {
-        //The method matching the the character is chosen
-        track(j)(i) match {
-          case 'T' => wall(i, j)
-          case 'F' => finishLine(i, j)
-          case 'A' => carA(i, j)
-          case 'B' => carB(i, j)
-          case _   => road(i, j)
-        }
-        
-        //Lines separating the different squares are drawn
-        g.setColor(Color.black)
-        g.fillRect(i * 16, j * 16, 16, 1)
-        g.fillRect(i * 16, j * 16, 1, 16)
-      }
-      
-      //Methods each drawing their specified square
-      
-      def wall(i: Int, j: Int) = {
-        g.setColor(Color.gray)
-        g.fillRect(i * 16, j * 16, 16, 16)
-      }
-      
-      def carA(i: Int, j: Int) = {
-        g.setColor(Color.blue)
-        g.fillRect(i * 16, j * 16, 16, 16)
-      }
-      
-      def carB(i: Int, j: Int) = {
-        g.setColor(Color.red)
-        g.fillRect(i * 16, j * 16, 16, 16)
-      }
-      
-      def finishLine(i: Int, j: Int) = {
-        g.setColor(Color.white)
-        g.fillRect(i * 16, j * 16, 16, 16)
-      }
-      
-      def road(i: Int, j: Int) = {
-        g.setColor(Color.green)
-        g.fillRect(i * 16, j * 16, 16, 16)
-      }
-      
-    }
-    */
+     
   }
   
 

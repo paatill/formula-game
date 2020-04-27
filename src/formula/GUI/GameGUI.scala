@@ -22,7 +22,7 @@ object GameGUI extends App {
     println("Your chosen name is " + player2Name)
     val game = new Game(fileInfo, player1Name, player2Name)
     println("\n")
-    for (line <- game.track.firstMap) {
+    for (line <- game.track.map) {
         var string = ""
         line.foreach( string += _ )
         println(string)

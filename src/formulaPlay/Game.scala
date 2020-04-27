@@ -1,15 +1,15 @@
 package formulaPlay
 import exceptions._
 
-class Game(info: String, driverName1: String, driverName2: String) {
+class Game(info: String, driverInfo1: String, driverInfo2: String) {
   
   //Including only the information regarding the layout of the map from the file
   //(layout height, layout length, layout; not the tag MAP)
   val (trackInfo, lapInfo) = {
     this.infoTest(info)
     val cutInfo = info.drop(13)                                                //"FORMULAMAPREC" dropped
-    val cutInfo2 = cutInfo.drop(cutInfo.take(1).toInt + 1)                     //RecordHolder name and its length dropped
-    val cutInfo3 = cutInfo2.drop(cutInfo2.take(1).toInt + 1 + 3)               //RecordTime and its length and "MAP" dropped
+    val cutInfo2 = cutInfo.drop(cutInfo.take(2).toInt + 2)                     //RecordHolder name and its length dropped
+    val cutInfo3 = cutInfo2.drop(cutInfo2.take(2).toInt + 2 + 3)               //RecordTime and its length and "MAP" dropped
     val toTake1 = cutInfo3.take(2).toInt                                       //Map height
     val toTake2 = cutInfo3.drop(2).take(2).toInt                               //Map length
     val infoTrack = cutInfo3.take(toTake1 * toTake2 + 4)                       //Map info (map heigth, length and their product taken)
@@ -20,11 +20,11 @@ class Game(info: String, driverName1: String, driverName2: String) {
   //Reading the record names from info
   val (recordHolderName, recordTime) = {
     val cutInfo = info.drop(13)                                                //"FORMULAMAPREC" dropped
-    val toDrop = cutInfo.take(1).toInt                                         //RecordHolder name length
-    val recordHolder = cutInfo.drop(1).take(toDrop)                            //RecordHolder name (name length dropped, name length amount taken
-    val cutInfo2 = cutInfo.drop(toDrop + 1)                                    //RecordHolder name dropped
-    val toTake = cutInfo2.take(1).toInt                                        //RecordTime length
-    val recordTimes = cutInfo2.drop(1).take(toTake)                            //RecordTime (RecordTime length dropped, its amount taken)
+    val toDrop = cutInfo.take(2).toInt                                         //RecordHolder name length
+    val recordHolder = cutInfo.drop(2).take(toDrop)                            //RecordHolder name (name length dropped, name length amount taken
+    val cutInfo2 = cutInfo.drop(toDrop + 2)                                    //RecordHolder name dropped
+    val toTake = cutInfo2.take(2).toInt                                        //RecordTime length
+    val recordTimes = cutInfo2.drop(2).take(toTake)                            //RecordTime (RecordTime length dropped, its amount taken)
     (recordHolder, recordTimes)
   }
   
@@ -35,8 +35,8 @@ class Game(info: String, driverName1: String, driverName2: String) {
   val finishLine = track.finishLine.toVector
   
   //Creating the cars
-  val car1 = new Car(Driver(driverName1), track.car1Pos, 'A', finishLine)
-  val car2 = new Car(Driver(driverName2), track.car2Pos, 'B', finishLine)
+  val car1 = new Car(Driver(driverInfo1), track.car1Pos, 'A', finishLine)
+  val car2 = new Car(Driver(driverInfo2), track.car2Pos, 'B', finishLine)
   
   //Marking which car is in turn and which isn't
   private var carInTurn = car1
@@ -100,9 +100,9 @@ class Game(info: String, driverName1: String, driverName2: String) {
   def infoTest(information: String): Unit = {
     try {
       if (information.take(13) != "FORMULAMAPREC") throw FileException("Does not read 'FORMULAMAPREC' where it is supposed to.", information)
-    val nameLength = information.drop(13).take(1).toInt
-    val timeLength = information.drop(13 + 1 + nameLength).take(1).toInt
-    val info2 = information.drop(13 + 1 + nameLength + 1 + timeLength)
+    val nameLength = information.drop(13).take(2).toInt
+    val timeLength = information.drop(13 + 2 + nameLength).take(2).toInt
+    val info2 = information.drop(13 + 2 + nameLength + 2 + timeLength)
     if (info2.take(3) != "MAP") throw FileException("Does not read 'MAP' where it is supposed to.", information)
     if (information.takeRight(3) != "END") throw FileException("Does not read 'END' where it is supposed to.", information)
     } catch {
