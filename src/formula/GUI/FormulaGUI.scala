@@ -242,8 +242,8 @@ object FormulaGUI extends SimpleSwingApplication {
         trackUsed(j)(i) match {
           case 'T' => wall(i, j)
           case 'F' => finishLine(i, j)
-          case 'A' => carA(i, j)
-          case 'B' => carB(i, j)
+          case 'A' => car(i, j, game.car1, Color.blue)
+          case 'B' => car(i, j, game.car2, Color.red)
           case 'a' => carAWasHere(i, j)
           case 'b' => carBWasHere(i, j)
           case '-' => downGear(i, j)
@@ -277,66 +277,18 @@ object FormulaGUI extends SimpleSwingApplication {
         g.fillRect(i * squareSide, j * squareSide, squareSide, squareSide)
       }
       
-      def carA(i: Int, j: Int) = {
-        //g.setColor(Color.green)
-        //g.fillRect(i * squareSide, j * squareSide, squareSide, squareSide)
-        val upMiddle = Vector(
-          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n'),
-          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'B', 'n', 'n', 'n', 'n', 'n', 'n', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'n', 'n', 'n', 'n'),
-          Vector('n', 'n', 'n', 'n', 'n', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'n', 'n', 'n', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'D', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'B', 'n', 'D', 'D', 'D', 'n'),
-          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'B', 'B', 'B', 'n', 'n', 'n', 'n', 'n', 'n'),
-          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n')
-        )
-        val temporaryDownMiddle = upMiddle.toBuffer
-        temporaryDownMiddle += upMiddle(0)
-        val downMiddle = temporaryDownMiddle.reverse
-        downMiddle.drop(1)
-        
-        
-        val middleRight = upMiddle.toArray.map(_.toArray)
-        for {
-          j <- middleRight.indices
-          i <- middleRight(0).indices
-        } {
-          middleRight(j)(i) = upMiddle(i)(j)
-        }
-        
-        val middleLeft = middleRight.clone().map(_.reverse)
-        for {
-          j <- middleLeft.indices
-          i <- middleLeft(0).indices
-        } {
-          println("j,i :" + middleLeft(j)(i))
-          middleLeft(j)((i + 1) % 16) = middleLeft(j)(i)
-          
-          println("j,i + 1 % 16 :" + middleLeft(j)((i + 1) % 16))
-        }
-        
-        for (line <- middleLeft) {
-        var string = ""
-        line.foreach( string += _ )
-        println(string)
-    }
+      def car(i: Int, j: Int, car: Car, color: Color) = {
+        val direction = Direction(car)
+        val carGraphics = CarGraphics(direction)
         
         searchMapProper(game.track.emptyMap, i, j)
         for {
-          x <- middleLeft(0).indices
-          y <- middleLeft.indices
+          x <- carGraphics(0).indices
+          y <- carGraphics.indices
         } {
-          middleLeft(y)(x) match {
+          carGraphics(y)(x) match {
             case 'D' => g.setColor(Color.black); g.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
-            case 'B' => g.setColor(Color.blue); g.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
+            case 'B' => g.setColor(color); g.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
             case _ => Unit
           }
           
@@ -347,11 +299,6 @@ object FormulaGUI extends SimpleSwingApplication {
         searchMapProper(game.track.emptyMap, i, j)
         g.setColor(Color.cyan)
         g.fillArc(i * squareSide + 4, j * squareSide + 4, 8, 8, 0, 360)
-      }
-      
-      def carB(i: Int, j: Int) = {
-        g.setColor(Color.red)
-        g.fillRect(i * squareSide, j * squareSide, squareSide, squareSide)
       }
       
       def carBWasHere(i: Int, j: Int) = {
