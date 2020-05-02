@@ -3,46 +3,56 @@ import exceptions._
 
 class Game(info: String, driverInfo1: String, driverInfo2: String) {
   
-  //Including only the information regarding the layout of the map from the file
-  //(layout height, layout length, layout; not the tag MAP)
-  val (trackInfo, lapInfo) = {
+  
+  val FORMULATRACKRECdigits = 15
+  val TRACKdigits = 5
+  val recordNameLengthDigits = 2
+  val recordLengthDigits = 1
+  val lapDigits = 1
+  val ENDdigits = 3
+  val LAPdigits = 3
+  
+  //Including only the information regarding the layout of the track from the file
+  //(layout height, layout length, layout; not the tag TRACK)
+  val (trackInfo, lapInfo, recordHolderName, recordTime) = {
     this.infoTest(info)
-    val cutInfo = info.drop(13)                                                //"FORMULAMAPREC" dropped
-    val cutInfo2 = cutInfo.drop(cutInfo.take(2).toInt + 2)                     //RecordHolder name and its length dropped
-    val cutInfo3 = cutInfo2.drop(cutInfo2.take(2).toInt + 2 + 3)               //RecordTime and its length and "MAP" dropped
-    val toTake1 = cutInfo3.take(2).toInt                                       //Map height
-    val toTake2 = cutInfo3.drop(2).take(2).toInt                               //Map length
-    val infoTrack = cutInfo3.take(toTake1 * toTake2 + 4)                       //Map info (map heigth, length and their product taken)
-    val infoLap = cutInfo3.drop(toTake1 * toTake2 + 4 + 3).dropRight(3).toInt  //One digit lap amount (map height, length and their product dropped, "LAP" dropped, "END" dropped
-    (infoTrack, infoLap)
+    val afterREC = info.drop(FORMULATRACKRECdigits)
+    val recordNameLength =      afterREC.take(recordNameLengthDigits).toInt
+    val afterRecordNameLength = afterREC.drop(recordNameLengthDigits)
+    val recordHolder =          afterREC.take(recordNameLength)
+    val afterRecordName =       afterRecordNameLength.drop(recordNameLength)
+    val recordLength =          afterRecordName.take(recordLengthDigits).toInt
+    val afterRecordLength =     afterRecordName.drop(recordLengthDigits)
+    val recordTimes =           afterRecordLength.take(recordLength)
+    val afterRecord =           afterRecordName.drop(recordLength + recordLengthDigits)
+    val afterTRACK =            afterRecord.drop(TRACKdigits)
+    val infoTrack =             afterTRACK.dropRight(ENDdigits + lapDigits + LAPdigits)
+    val afterTrack =            afterTRACK.takeRight(ENDdigits + lapDigits + LAPdigits)
+    val ENDdropped =            afterTrack.dropRight(ENDdigits)
+    val infoLap =               ENDdropped.drop(LAPdigits).toInt
+    (infoTrack, infoLap, recordHolder, recordTimes)
   }
   
-  //Reading the record names from info
-  val (recordHolderName, recordTime) = {
-    val cutInfo = info.drop(13)                                                //"FORMULAMAPREC" dropped
-    val toDrop = cutInfo.take(2).toInt                                         //RecordHolder name length
-    val recordHolder = cutInfo.drop(2).take(toDrop)                            //RecordHolder name (name length dropped, name length amount taken
-    val cutInfo2 = cutInfo.drop(toDrop + 2)                                    //RecordHolder name dropped
-    val toTake = cutInfo2.take(2).toInt                                        //RecordTime length
-    val recordTimes = cutInfo2.drop(2).take(toTake)                            //RecordTime (RecordTime length dropped, its amount taken)
-    (recordHolder, recordTimes)
-  }
   
   //Creating the race track
-  val track = new RaceTrack(trackInfo)
+  val raceTrack = new RaceTrack(trackInfo)
+  val track = raceTrack.track
   
   
-  val finishLine = track.finishLine.toVector
+  val finishLine = raceTrack.finishLine.toVector
   
   //Creating the cars
-  val car1 = new Car(Driver(driverInfo1), track.car1Pos, 'A', finishLine)
-  val car2 = new Car(Driver(driverInfo2), track.car2Pos, 'B', finishLine)
+  val car1 = new Car(Driver(driverInfo1), raceTrack.car1Pos, 'A', finishLine)
+  val car2 = new Car(Driver(driverInfo2), raceTrack.car2Pos, 'B', finishLine)
   
   //Marking which car is in turn and which isn't
   private var carInTurn = car1
   private var carNotInTurn = car2
   def inTurnCar = carInTurn
   def notInTurnCar = carNotInTurn
+  def inTurnCarGear = carInTurn.gearManager.gear.speed
+  def notInTurnCarGear = carNotInTurn.gearManager.gear.speed
+  def carLapTimes(car: Car) = car.gearManager.lapTimes
   
 
   
@@ -54,25 +64,22 @@ class Game(info: String, driverInfo1: String, driverInfo2: String) {
   private var victoriousDriver: Option[Driver] = None
   def victor = victoriousDriver
   
-  //Plays a turn as in moves the car and returns an updated map
+  def possibilitiesTrack = carInTurn.seekPossibilities(track)
+  def possibilityTrack(tuple: (Char, Int)) = carInTurn.seekPossibilities(track, tuple)
+  
+  
+  //Plays a turn as in moves the car and returns an updated track
   //In more detail:
   //The car whose driver has just given input drives meaning gets its location updated
-  //Track then alters its map so it corresponds to the car's new position
-  //The car not in turn then makes a map which has all its possible choices for the next turn marked
+  //Track then alters its track so it corresponds to the car's new position
+  //The car not in turn then makes a track which has all its possible choices for the next turn marked
   //Turn is then added by one and the carInTurn and CarNotInTurn are switched accordingly
-  //The map with all the choices is then returned
+  //The track with all the choices is then returned
   def playTurn(gearChange: Char, directionChange: Int): Array[Array[Char]] = {
-    
-    
-    
-    
-    carInTurn.drive(gearChange, directionChange, track.map)
-    
-    
-    
-    
-    track.drawMap(car1.position, car2.position)
-    val returnMap = carNotInTurn.seekPossibilities(track.map)
+    carInTurn.drive(gearChange, directionChange, track)
+
+    raceTrack.drawTrack(car1.position, car2.position)
+    val returnTrack = carNotInTurn.seekPossibilities(track)
     val carInTurnFinished = carInTurn.gearManager.laps >= lapInfo
     val carNotInTurnFinished = carNotInTurn.gearManager.laps >= lapInfo
     
@@ -81,14 +88,10 @@ class Game(info: String, driverInfo1: String, driverInfo2: String) {
       this.isOver = true
       victoriousDriver = if (carInTurnFinished) Some(carInTurn.driver) else Some(carNotInTurn.driver)
     }
-    
     TurnCounter.advanceTurn
     carInTurn = if (TurnCounter.turn % 2 == 0) car1 else car2
     carNotInTurn = if (TurnCounter.turn % 2 == 0) car2 else car1
-    
-    
-    
-    returnMap
+    returnTrack
   }
   
   
@@ -99,11 +102,11 @@ class Game(info: String, driverInfo1: String, driverInfo2: String) {
   //If the file is incorrectly formatted, throws an exception that stops the program.
   def infoTest(information: String): Unit = {
     try {
-      if (information.take(13) != "FORMULAMAPREC") throw FileException("Does not read 'FORMULAMAPREC' where it is supposed to.", information)
-    val nameLength = information.drop(13).take(2).toInt
-    val timeLength = information.drop(13 + 2 + nameLength).take(2).toInt
-    val info2 = information.drop(13 + 2 + nameLength + 2 + timeLength)
-    if (info2.take(3) != "MAP") throw FileException("Does not read 'MAP' where it is supposed to.", information)
+      if (information.take(15) != "FORMULATRACKREC") throw FileException("Does not read 'FORMULATRACKREC' where it is supposed to.", information)
+    val nameLength = information.drop(15).take(2).toInt
+    val timeLength = information.drop(15 + 2 + nameLength).take(1).toInt
+    val info2 = information.drop(15 + 2 + nameLength + 1 + timeLength)
+    if (info2.take(5) != "TRACK") throw FileException("Does not read 'TRACK' where it is supposed to.", information)
     if (information.takeRight(3) != "END") throw FileException("Does not read 'END' where it is supposed to.", information)
     } catch {
       case e: FileException => throw e

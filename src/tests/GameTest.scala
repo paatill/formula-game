@@ -17,7 +17,7 @@ class GameTest extends FlatSpec {
     val game = new Game("FORMULAMAPREC3JIM5MATTIMAP1008TTTTTTTTTOOOOOOTTOOXOOOTTOOOOOOTTOOYOOOTTOOOOOOTTOOOOOOTTOOOOOOTTOOOOOOTTTTTTTTTTLAP1END", "JIM", "MATTI")
     assert(game.car1.position === (3, 2))
     assert(game.car2.position === (3, 4))
-    assert(game.track.map === Array(
+    assert(game.raceTrack.track === Array(
         Array('T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'), 
         Array('T', 'O', 'O', 'O', 'O', 'O', 'O', 'T'), 
         Array('T', 'O', 'O', 'X', 'O', 'O', 'O', 'T'), 
@@ -30,7 +30,7 @@ class GameTest extends FlatSpec {
         Array('T', 'T', 'T', 'T', 'T', 'T', 'T', 'T')))
     
     game.playTurn('=', 0)
-    assert(game.track.map === Array(
+    assert(game.raceTrack.track === Array(
         Array('T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'), 
         Array('T', 'O', 'O', 'O', 'O', 'O', 'O', 'T'), 
         Array('T', 'O', 'A', 'a', 'O', 'O', 'O', 'T'), 

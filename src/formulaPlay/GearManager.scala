@@ -70,7 +70,7 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
   //Then moves the car forward one tile at a time
   //Stops if tries to enter a tile where there is another car or a wall
   //Returns the new position once the car has stopped
-  def newPosition(gearChange: Char, directionChange: Int, carPosition: (Int, Int), map: Array[Array[Char]], isTrueChange: Boolean): (Int, Int) = {
+  def newPosition(gearChange: Char, directionChange: Int, carPosition: (Int, Int), track: Array[Array[Char]], isTrueChange: Boolean, isSingleOption: Boolean): Option[(Int, Int)] = {
     val previousGearNumber = gear.speed
     val previousDirection = (gear.direction(0), gear.direction(1))
     
@@ -126,12 +126,30 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
       //Moves the car one tile forward unless it is about to enter some special tile
       //In that case the car follows the orders of the special case
       //For an example, if the car tries to enter a place where another car is currently situated, it stops
-      map(finalPosition._2 + yStepPut)(finalPosition._1 + xStepPut) match {
-        case 'A' => continueLoop = false
-        case 'B' => continueLoop = false
-        case 'T' => continueLoop = false
-        case _   => finalPosition = (finalPosition._1 + xStepPut, finalPosition._2 + yStepPut)
+      if (isTrueChange || isSingleOption) {
+      
+        track(finalPosition._2 + yStepPut)(finalPosition._1 + xStepPut) match {
+          case 'A' => continueLoop = false
+          case 'B' => continueLoop = false
+          case 'T' => continueLoop = false
+          case _ => finalPosition = (finalPosition._1 + xStepPut, finalPosition._2 + yStepPut)
+        }
+      } else {
+        if (!isOutOfBounds) {
+          finalPosition = (finalPosition._1 + xStepPut, finalPosition._2 + yStepPut)
+        } else {
+          continueLoop = false
+        }
       }
+      
+      
+      def isOutOfBounds: Boolean = {
+        finalPosition._1 + xStepPut > track(0).length - 1 || finalPosition._1 + xStepPut < 0 || finalPosition._2 + yStepPut > track.length - 1 || finalPosition._2 + yStepPut < 0
+      }
+      
+      //finalPosition = (finalPosition._1 + xStepPut, finalPosition._2 + yStepPut)
+      
+      
       
       //Quits the loop (and car movement) if the full movement has been traveled
       if (finalPosition == intendedPosition) {
@@ -167,8 +185,8 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
       gear.direction(0) = previousDirection._1
       gear.direction(1) = previousDirection._2
     }
+    if (track(finalPosition._2)(finalPosition._1) != 'A' && track(finalPosition._2)(finalPosition._1) != 'B') Some(finalPosition) else None
     
-    finalPosition
   }
   
 }

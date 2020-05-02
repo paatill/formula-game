@@ -16,45 +16,53 @@ class Car(val driver: Driver, firstPosition: (Int, Int), avatar: Char, finishLin
   //Calls a new position from gearManager and gives gearChange, directionChange and current position as parameters
   //Sets the returned position as new current position
   //Returns Unit
-  def drive(gearChange: Char, directionChange: Int, map: Array[Array[Char]]): Unit = {
-    this.setPosition(gearManager.newPosition(gearChange, directionChange, this.position, map, true))
+  def drive(gearChange: Char, directionChange: Int, track: Array[Array[Char]]): Unit = {
+    val newPositionOption = (gearManager.newPosition(gearChange, directionChange, this.position, track, true, false))
+    val positionToSet = newPositionOption match {
+      case Some(tuple) => tuple
+      case None => position
+    }
+    this.setPosition(positionToSet)
   }
   
-  //Car goes through all its possible future destinations and returns a map with them marked
-  def seekPossibilities(map: Array[Array[Char]]): Array[Array[Char]] = {
-    val possibilityMap = Array.ofDim[Char](map.length, map(0).length)
+  //Car goes through all its possible future destinations and returns a track with them marked
+  def seekPossibilities(track: Array[Array[Char]], tuples: (Char, Int)*): Array[Array[Char]] = {
+    val possibilityTrack= Array.ofDim[Char](track.length, track(0).length)
     
-    //Fills the possibilityMap with map's values meaning makes it a copy of it
+    //Fills the possibilityTrack with track's values meaning makes it a copy of it
     for {
-      j <- map.indices
-      i <- map(0).indices
+      j <- track.indices
+      i <- track(0).indices
     } {
-      possibilityMap(j)(i) = map(j)(i)
+      possibilityTrack(j)(i) = track(j)(i)
     }
     
+    val gearDirectionChanges = Vector(('+', 1), ('+', 0), ('+', -1), ('-', 1), ('-', 0), ('-', -1), ('=', 1), ('=', 0), ('=', -1))
+    
     //Calls fill for each of the 9 scenarios
-    fill('+', 1)
-    fill('+', 0)
-    fill('+', -1)
-    fill('-', 1)
-    fill('-', 0)
-    fill('-', -1)
-    fill('=', 1)
-    fill('=', 0)
-    fill('=', -1)
+    if (tuples.size == 0) {
+      gearDirectionChanges.foreach(tuple => fill(tuple._1, tuple._2))
+    } else {
+      tuples.foreach(tuple => fill(tuple._1, tuple._2))
+    }
     
     
-    //Adds the specified gearChange and directionChange destination to possibilityMap
+    
+    
+    //Adds the specified gearChange and directionChange destination to possibilityTrack
     def fill(gearChange: Char, directionChange: Int) = {
-      val (xPos, yPos) = gearManager.newPosition(gearChange, directionChange, this.position, map, false)
-      possibilityMap(yPos)(xPos) = gearChange
+      val positionOption = gearManager.newPosition(gearChange, directionChange, this.position, track, false, tuples.size != 0)
+      positionOption match {
+        case Some((xPos, yPos)) => possibilityTrack(yPos)(xPos) = gearChange
+        case None => 
+      }
     }
     
     //Makes sure the car's own position does not dissapear even if the car does not move in one of the scenarios
-    possibilityMap(position._2)(position._1) = avatar
+    possibilityTrack(position._2)(position._1) = avatar
     
     
-    possibilityMap
+    possibilityTrack
   }
   
   
@@ -62,6 +70,7 @@ class Car(val driver: Driver, firstPosition: (Int, Int), avatar: Char, finishLin
   
   
   def position = currentPos
+  
   def setPosition(coords: (Int, Int)) = {
     currentPos = coords
   }

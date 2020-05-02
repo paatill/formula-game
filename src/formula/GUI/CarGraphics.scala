@@ -48,7 +48,7 @@ object CarGraphics {
         
         val upRight = Vector(
           Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n'),
-          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'D', 'D', 'n', 'n', 'n', 'n', 'n', 'B'),
+          Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'D', 'D', 'n', 'n', 'n', 'n', 'n', 'n'),
           Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'D', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'n'),
           Vector('n', 'n', 'n', 'n', 'n', 'n', 'D', 'D', 'D', 'D', 'n', 'n', 'B', 'B', 'B', 'n'),
           Vector('n', 'n', 'n', 'n', 'n', 'n', 'n', 'D', 'D', 'n', 'B', 'B', 'B', 'B', 'n', 'n'),
