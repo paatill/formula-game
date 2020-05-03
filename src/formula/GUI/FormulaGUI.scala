@@ -20,7 +20,6 @@ object FormulaGUI extends SimpleSwingApplication {
   
   def top() = frame
   
-  println("TAPPAJAHAI")
   val player1Info = getPlayerName('1')
   val player2Info = getPlayerName('2')
   
@@ -30,7 +29,7 @@ object FormulaGUI extends SimpleSwingApplication {
   
   //Access to the internal logic of the game
   val game = new Game(fileInfo, player1Info, player2Info)
-  val gameTrack = game.track
+  val gameTrack = game.track()
   //Presents the first player with possible outcomes
   val beginningTrack = game.possibilitiesTrack
   //A square represents a single character in the track's Array[Array[Char]]
@@ -289,7 +288,7 @@ object FormulaGUI extends SimpleSwingApplication {
     if ((TurnCounter.turn / 2) < game.recordTime.toInt) {
       setNewRecordInFile()
     }
-    val saveDrivers = Dialog.showConfirmation(allItems, game.victor.getOrElse("MYSTERY DRIVER") + " has won the race! Do you wish to save the information about the drivers?", optionType=Dialog.Options.YesNo)
+    val saveDrivers = Dialog.showConfirmation(allItems, game.victor.getOrElse(new Driver("04TONI")).name + " has won the race! Do you wish to save the information about the drivers?", optionType=Dialog.Options.YesNo)
     if (saveDrivers == Dialog.Result.Yes) {
       saveDriver(game.inTurnCar)
       saveDriver(game.notInTurnCar)

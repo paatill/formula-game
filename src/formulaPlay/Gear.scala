@@ -68,7 +68,6 @@ class GearOne extends Gear {
   val plusHalf = 1
   val minusHalf = -1
   val direction = Array(-1, 0)
-  println(direction(0) + " " + direction(1))
 }
 
 class GearTwo extends Gear {

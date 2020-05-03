@@ -48,13 +48,10 @@ class CarTest extends FlatSpec {
     val possibilities = car.seekPossibilities(map)
     arrayPrint(possibilities)
     
-    println("\ndirection(0): " + car.gearManager.gear.direction(0) + "\n")
-    println("\ndirection(1): " + car.gearManager.gear.direction(1) + "\n")
+
     println("carPos: " + car.position)
     car.drive('=', 0, map)
-    println("carPos: " + car.position)
-    println("\ndirection(0): " + car.gearManager.gear.direction(0) + "\n")
-    println("\ndirection(1): " + car.gearManager.gear.direction(1) + "\n")
+
     
     
     

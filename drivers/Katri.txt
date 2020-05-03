@@ -1,6 +1,0 @@
-05Katri
-01
-LAPTIMES
-15
-RaceTrackTest01
-1

@@ -8,7 +8,12 @@ class Car(val driver: Driver, firstPosition: (Int, Int), avatar: Char, finishLin
   
   
   private var currentPos = firstPosition
-  
+    //Access to car position
+  def position = currentPos
+  //Method for changing car position
+  def setPosition(coords: (Int, Int)) = {
+    currentPos = coords
+  }
   
   
   //Simulates the car driving one round
@@ -71,10 +76,5 @@ class Car(val driver: Driver, firstPosition: (Int, Int), avatar: Char, finishLin
   
   
   
-  //Access to car position
-  def position = currentPos
-  //Method for changing car position
-  def setPosition(coords: (Int, Int)) = {
-    currentPos = coords
-  }
+
 }

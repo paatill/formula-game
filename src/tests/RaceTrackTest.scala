@@ -16,8 +16,8 @@ class RaceTrackTest extends FlatSpec {
   
   "Car positions" should "be exactly as the file dictates it." in {
     val raceTrack = new RaceTrack("0305KPXPPPPKKPPPKPY")
-    assert(raceTrack.car1Pos === (2, 0))
-    assert(raceTrack.car2Pos === (4, 2))
+    assert(raceTrack.car1Positioned === (2, 0))
+    assert(raceTrack.car2Positioned === (4, 2))
   }
   
   "Returned map" should "have the right been to mark and the right is in mark" in {
@@ -25,8 +25,8 @@ class RaceTrackTest extends FlatSpec {
     
     assert(raceTrack.drawTrack((2, 2), (0, 2)) === Array(Array('K', 'P', 'a', 'P', 'P'), Array('P', 'P', 'K', 'K', 'P'), Array('B', 'P', 'A', 'P', 'b')))
     
-    assert(raceTrack.car1Pos === (2, 2))
-    assert(raceTrack.car2Pos === (0, 2))
+    assert(raceTrack.car1Positioned === (2, 2))
+    assert(raceTrack.car2Positioned === (0, 2))
   }
   
 }

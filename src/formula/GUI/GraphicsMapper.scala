@@ -39,9 +39,9 @@ class GraphicsMapper(squareSide: Int, game: Game) {
           case 'B' => car(i, j, game.car2, Color.red)
           case 'a' => carAWasHere(i, j)
           case 'b' => carBWasHere(i, j)
-          case '-' /*if (futureDestinationHelpPrinted == Dialog.Result.Yes)*/ => downGear(i, j)
-          case '+' /*if (futureDestinationHelpPrinted == Dialog.Result.Yes)*/ => upGear(i, j)
-          case '=' /*if (futureDestinationHelpPrinted == Dialog.Result.Yes)*/ => keepGear(i, j)
+          case '-' => downGear(i, j)
+          case '+' => upGear(i, j)
+          case '=' => keepGear(i, j)
           case _   => road(i, j) 
         }
         
@@ -74,14 +74,14 @@ class GraphicsMapper(squareSide: Int, game: Game) {
         val direction = Direction(car)
         val carGraphics = CarGraphics(direction)
         
-        searchMapProper(game.track, i, j)
+        searchMapProper(game.track(), i, j)
         for {
           x <- carGraphics(0).indices
           y <- carGraphics.indices
         } {
           carGraphics(y)(x) match {
-            case 'D' =>graphics.setColor(Color.black);graphics.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
-            case 'B' =>graphics.setColor(color);graphics.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
+            case 'D' => graphics.setColor(Color.black);graphics.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
+            case 'B' => graphics.setColor(color);graphics.fillRect(i * squareSide + x, j * squareSide + y, 1, 1)
             case _ => Unit
           }
           
@@ -89,13 +89,13 @@ class GraphicsMapper(squareSide: Int, game: Game) {
       }
       
       def carAWasHere(i: Int, j: Int) = {
-        searchMapProper(game.track, i, j)
+        searchMapProper(game.track(), i, j)
        graphics.setColor(Color.cyan)
        graphics.fillArc(i * squareSide + 4, j * squareSide + 4, 8, 8, 0, 360)
       }
       
       def carBWasHere(i: Int, j: Int) = {
-        searchMapProper(game.track, i, j)
+        searchMapProper(game.track(), i, j)
        graphics.setColor(Color.magenta)
        graphics.fillArc(i * squareSide + 4, j * squareSide + 4, 8, 8, 0, 360)
       }
@@ -120,38 +120,24 @@ class GraphicsMapper(squareSide: Int, game: Game) {
       def road(i: Int, j: Int) = {
        graphics.setColor(Color.green)
        graphics.fillRect(i * squareSide, j * squareSide, squareSide, squareSide)
-        /*val baseILength = i * squareSide
-        val baseJLength = j * squareSide
-        for {
-          x <- 0 until 16
-          y <- 0 until 16
-        } {
-          if (x % 2 == y % 2) {
-           graphics.setColor(Color.LIGHT_GRAY)
-           graphics.fillRect(baseILength + x, baseJLength + y, 1, 1)
-          } else {
-           graphics.setColor(Color.DARK_GRAY)
-           graphics.fillRect(baseILength + x, baseJLength + y, 1, 1)
-          }
-        }*/
       }
       
       def upGear(i: Int, j: Int) = {
-        searchMapProper(game.track, i, j)
+        searchMapProper(game.track(), i, j)
        graphics.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
        graphics.fillRect(i * squareSide + 2, j * squareSide + 7, squareSide - 4, 2)
        graphics.fillRect(i * squareSide + 7, j * squareSide + 2, 2, squareSide - 4)
       }
       
       def keepGear(i: Int, j: Int) = {
-        searchMapProper(game.track, i, j)
+        searchMapProper(game.track(), i, j)
        graphics.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
        graphics.fillRect(i * squareSide + 2, j * squareSide + 5, squareSide - 4, 2)
        graphics.fillRect(i * squareSide + 2, j * squareSide + 9, squareSide - 4, 2)
       }
       
       def downGear(i: Int, j: Int) = {
-        searchMapProper(game.track, i, j)
+        searchMapProper(game.track(), i, j)
        graphics.setColor(if (game.inTurnCar == game.car1) Color.blue else Color.red)
        graphics.fillRect(i * squareSide + 2, j * squareSide + 7, squareSide - 4, 2)
       }

@@ -4,11 +4,11 @@ import exceptions._
 import scala.math._
 
 class GearManager(finishLine: Vector[(Int, Int)]) {
-  val one = new GearOne
-  val two = new GearTwo
-  val three = new GearThree
-  val four = new GearFour
-  val five = new GearFive
+  private val one = new GearOne
+  private val two = new GearTwo
+  private val three = new GearThree
+  private val four = new GearFour
+  private val five = new GearFive
   
   private var currentGear: Gear = one
   private var gearNumber = 1
@@ -16,7 +16,9 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
   //Tells how many times the car has crossed the finish line
   private var lapCount = 0
   
-  val lapTimes = Buffer[Int]()
+  private val lapTimes = Buffer[Int]()
+  
+  def storedLapTimes = lapTimes.toVector
   
   def gear = currentGear
   
@@ -46,7 +48,6 @@ class GearManager(finishLine: Vector[(Int, Int)]) {
     
     val x: Double = gear.direction(0)
     val y: Double = gear.direction(1)
-    val c: Double = sqrt(pow(y, 2) + pow(x, 2))
     
     //Sets a and b up the right way
     //Sets the correct direction in the upcoming Gear

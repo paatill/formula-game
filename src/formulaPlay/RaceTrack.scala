@@ -9,8 +9,11 @@ class RaceTrack(trackInfo: String) {
   //Keeps track of the latest car positions
   //Main purpose is for marking the position a car has been in the track
   //Set during the evaluation of firstTrack
-  var car1Pos = (-1, -1)
-  var car2Pos = (-1, -1)
+  private var car1Pos = (-1, -1)
+  private var car2Pos = (-1, -1)
+  
+  def car1Positioned = car1Pos
+  def car2Positioned = car2Pos
   
   val finishLine = Buffer[(Int, Int)]()
   
@@ -62,7 +65,7 @@ class RaceTrack(trackInfo: String) {
   emptyTrack.foreach(_.map(x => if (x == 'A' || x == 'B') ' ' else x))
   
   
-  
+  def apply() = track.clone().map(_.clone())
   
   //Creates current track which means placing the cars onto their current positions
   //Also leaves a a mark on their latest position

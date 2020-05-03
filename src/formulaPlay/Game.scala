@@ -35,15 +35,14 @@ class Game(info: String, driverInfo1: String, driverInfo2: String) {
   
   
   //Creating the race track
-  val raceTrack = new RaceTrack(trackInfo)
-  val track = raceTrack.track
+  val track = new RaceTrack(trackInfo)
   
   
-  val finishLine = raceTrack.finishLine.toVector
+  val finishLine = track.finishLine.toVector
   
   //Creating the cars
-  val car1 = new Car(Driver(driverInfo1), raceTrack.car1Pos, 'A', finishLine)
-  val car2 = new Car(Driver(driverInfo2), raceTrack.car2Pos, 'B', finishLine)
+  val car1 = new Car(Driver(driverInfo1), track.car1Positioned, 'A', finishLine)
+  val car2 = new Car(Driver(driverInfo2), track.car2Positioned, 'B', finishLine)
   
   //Marking which car is in turn and which isn't
   private var carInTurn = car1
@@ -54,7 +53,7 @@ class Game(info: String, driverInfo1: String, driverInfo2: String) {
   def notInTurnCar = carNotInTurn
   def inTurnCarGear = carInTurn.gearManager.gear.speed
   def notInTurnCarGear = carNotInTurn.gearManager.gear.speed
-  def carLapTimes(car: Car) = car.gearManager.lapTimes
+  def carLapTimes(car: Car) = car.gearManager.storedLapTimes
   
 
   
@@ -66,8 +65,8 @@ class Game(info: String, driverInfo1: String, driverInfo2: String) {
   private var victoriousDriver: Option[Driver] = None
   def victor = victoriousDriver
   
-  def possibilitiesTrack = carInTurn.seekPossibilities(track)
-  def possibilityTrack(tuple: (Char, Int)) = carInTurn.seekPossibilities(track, tuple)
+  def possibilitiesTrack = carInTurn.seekPossibilities(track())
+  def possibilityTrack(tuple: (Char, Int)) = carInTurn.seekPossibilities(track(), tuple)
   
   
   //Plays a turn as in moves the car and returns an updated track
@@ -78,17 +77,21 @@ class Game(info: String, driverInfo1: String, driverInfo2: String) {
   //Turn is then added by one and the carInTurn and CarNotInTurn are switched accordingly
   //The track with all the choices is then returned
   def playTurn(gearChange: Char, directionChange: Int): Array[Array[Char]] = {
-    carInTurn.drive(gearChange, directionChange, track)
+    carInTurn.drive(gearChange, directionChange, track())
 
-    raceTrack.drawTrack(car1.position, car2.position)
-    val returnTrack = carNotInTurn.seekPossibilities(track)
+    track.drawTrack(car1.position, car2.position)
+    val returnTrack = carNotInTurn.seekPossibilities(track())
     val carInTurnFinished = carInTurn.gearManager.laps >= lapInfo
     val carNotInTurnFinished = carNotInTurn.gearManager.laps >= lapInfo
     
     //Quits the game if a player has crossed the finish line and both players have played an equal number of turns
     if ((carInTurnFinished || carNotInTurnFinished) && TurnCounter.turn % 2 == 1) {
       this.isOver = true
-      victoriousDriver = if (carInTurnFinished) Some(carInTurn.driver) else Some(carNotInTurn.driver)
+      victoriousDriver = if (carInTurnFinished && carNotInTurnFinished) {
+        if (car1.gearManager.gear.speed > car2.gearManager.gear.speed) Some(car1.driver) else Some(car2.driver)
+      } else {
+        if (carInTurnFinished) Some(carInTurn.driver) else Some(carNotInTurn.driver)
+      }
     }
     TurnCounter.advanceTurn
     carInTurn = if (TurnCounter.turn % 2 == 0) car1 else car2
