@@ -1,0 +1,7 @@
+run
+stop
+quit
+run GameGUI.scala
+run /src/formula/GUI/GameGUI.scala
+/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala
+run /src/formula/GUI/GameGUI.scala/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala

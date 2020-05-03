@@ -20,6 +20,7 @@ object FormulaGUI extends SimpleSwingApplication {
   
   def top() = frame
   
+  println("TAPPAJAHAI")
   val player1Info = getPlayerName('1')
   val player2Info = getPlayerName('2')
   

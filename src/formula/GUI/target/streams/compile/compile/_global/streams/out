@@ -1,0 +1,279 @@
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:2:8: not found: object formulaPlay[0m
+[0m[[0m[31merror[0m] [0m[0mimport formulaPlay._[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:7:14: object swing is not a member of package scala[0m
+[0m[[0m[31merror[0m] [0m[0mimport scala.swing._[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:8:14: object swing is not a member of package scala[0m
+[0m[[0m[31merror[0m] [0m[0mimport scala.swing.event._[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:19:27: not found: type SimpleSwingApplication[0m
+[0m[[0m[31merror[0m] [0m[0mobject FormulaGUI extends SimpleSwingApplication {[0m
+[0m[[0m[31merror[0m] [0m[0m                          ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:153:19: not found: type MainFrame[0m
+[0m[[0m[31merror[0m] [0m[0m  val frame = new MainFrame {[0m
+[0m[[0m[31merror[0m] [0m[0m                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:154:5: not found: value title[0m
+[0m[[0m[31merror[0m] [0m[0m    title    = "CAR RACER"[0m
+[0m[[0m[31merror[0m] [0m[0m    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:155:5: not found: value contents[0m
+[0m[[0m[31merror[0m] [0m[0m    contents = allItems[0m
+[0m[[0m[31merror[0m] [0m[0m    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/TextFileReader.scala:2:8: not found: object formulaPlay[0m
+[0m[[0m[31merror[0m] [0m[0mimport formulaPlay._[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/TextFileReader.scala:7:14: object swing is not a member of package scala[0m
+[0m[[0m[31merror[0m] [0m[0mimport scala.swing._[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/TextFileReader.scala:8:14: object swing is not a member of package scala[0m
+[0m[[0m[31merror[0m] [0m[0mimport scala.swing.event._[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/TextFileReader.scala:26:27: not found: type FileChooser[0m
+[0m[[0m[31merror[0m] [0m[0m    val fileChooser = new FileChooser(new File(System.getProperty("user.dir") + directory))[0m
+[0m[[0m[31merror[0m] [0m[0m                          ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:31:18: not found: type Game[0m
+[0m[[0m[31merror[0m] [0m[0m  val game = new Game(fileInfo, player1Info, player2Info)[0m
+[0m[[0m[31merror[0m] [0m[0m                 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GraphicsMapper.scala:2:8: not found: object formulaPlay[0m
+[0m[[0m[31merror[0m] [0m[0mimport formulaPlay._[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GraphicsMapper.scala:7:14: object swing is not a member of package scala[0m
+[0m[[0m[31merror[0m] [0m[0mimport scala.swing._[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GraphicsMapper.scala:8:14: object swing is not a member of package scala[0m
+[0m[[0m[31merror[0m] [0m[0mimport scala.swing.event._[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GraphicsMapper.scala:17:45: not found: type Game[0m
+[0m[[0m[31merror[0m] [0m[0mclass GraphicsMapper(squareSide: Int, game: Game) {[0m
+[0m[[0m[31merror[0m] [0m[0m                                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:44:33: not found: type Label[0m
+[0m[[0m[31merror[0m] [0m[0m  val generalInfo =         new Label("Here is some information about the situation:")[0m
+[0m[[0m[31merror[0m] [0m[0m                                ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:45:33: not found: type Label[0m
+[0m[[0m[31merror[0m] [0m[0m  val gearChangeInfo =      new Label("Gear change is " + gearChange)[0m
+[0m[[0m[31merror[0m] [0m[0m                                ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:46:33: not found: type Label[0m
+[0m[[0m[31merror[0m] [0m[0m  val directionChangeInfo = new Label("Direction change is " + directionChange)[0m
+[0m[[0m[31merror[0m] [0m[0m                                ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:47:33: not found: type Label[0m
+[0m[[0m[31merror[0m] [0m[0m  val driverInTurnInfo =    new Label("Driver in turn is " + game.inTurnCar.driver.name)[0m
+[0m[[0m[31merror[0m] [0m[0m                                ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:48:33: not found: type Label[0m
+[0m[[0m[31merror[0m] [0m[0m  val roundInfo =           new Label("Round is " + TurnCounter.round)[0m
+[0m[[0m[31merror[0m] [0m[0m                                ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:48:53: not found: value TurnCounter[0m
+[0m[[0m[31merror[0m] [0m[0m  val roundInfo =           new Label("Round is " + TurnCounter.round)[0m
+[0m[[0m[31merror[0m] [0m[0m                                                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:49:33: not found: type Label[0m
+[0m[[0m[31merror[0m] [0m[0m  val gearInfo =            new Label("Gear is " + game.inTurnCarGear)[0m
+[0m[[0m[31merror[0m] [0m[0m                                ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:53:22: not found: type BoxPanel[0m
+[0m[[0m[31merror[0m] [0m[0m  val gameInfo = new BoxPanel(Orientation.Vertical)[0m
+[0m[[0m[31merror[0m] [0m[0m                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:53:31: not found: value Orientation[0m
+[0m[[0m[31merror[0m] [0m[0m  val gameInfo = new BoxPanel(Orientation.Vertical)[0m
+[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:67:41: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val upGearButton =                    Button("Raise Gear")            { carControlButtonPushed('+', directionChange) }[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:124:22: not found: type Label[0m
+[0m[[0m[31merror[0m] [0m[0m  val mapLabel = new Label                                        //Create the label where the image will be[0m
+[0m[[0m[31merror[0m] [0m[0m                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:68:41: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val keepGearButton =                  Button("Keep Gear")             { carControlButtonPushed('=', directionChange) }[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:69:41: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val downGearButton =                  Button("Down Gear")             { carControlButtonPushed('-', directionChange) }[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:70:41: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val counterClockwiseDirectionButton = Button("Turn counterclockwise") { carControlButtonPushed(gearChange, -1) }[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:71:41: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val keepDirectionButton =             Button("Keep direction")        { carControlButtonPushed(gearChange, 0) }[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:72:41: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val clockwiseDirectionButton =        Button("Turn clockwise")        { carControlButtonPushed(gearChange, 1) }[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:74:31: not found: type GridPanel[0m
+[0m[[0m[31merror[0m] [0m[0m  val carControlButtons = new GridPanel(2, 3)[0m
+[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:83:21: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val driveButton = Button("Confirm choices and drive") {[0m
+[0m[[0m[31merror[0m] [0m[0m                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:96:22: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val recordButton = Button("Show record time") { Dialog.showMessage(allItems, recordText, title = "Track Record") }[0m
+[0m[[0m[31merror[0m] [0m[0m                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:96:51: not found: value Dialog[0m
+[0m[[0m[31merror[0m] [0m[0m  val recordButton = Button("Show record time") { Dialog.showMessage(allItems, recordText, title = "Track Record") }[0m
+[0m[[0m[31merror[0m] [0m[0m                                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:146:22: not found: type BoxPanel[0m
+[0m[[0m[31merror[0m] [0m[0m  val allItems = new BoxPanel(Orientation.Vertical)[0m
+[0m[[0m[31merror[0m] [0m[0m                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:146:31: not found: value Orientation[0m
+[0m[[0m[31merror[0m] [0m[0m  val allItems = new BoxPanel(Orientation.Vertical)[0m
+[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:96:92: not found: value title[0m
+[0m[[0m[31merror[0m] [0m[0m  val recordButton = Button("Show record time") { Dialog.showMessage(allItems, recordText, title = "Track Record") }[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:100:30: not found: value Button[0m
+[0m[[0m[31merror[0m] [0m[0m  val showAllOptionsButton = Button("Show all options") {[0m
+[0m[[0m[31merror[0m] [0m[0m                             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:106:32: not found: type BoxPanel[0m
+[0m[[0m[31merror[0m] [0m[0m  val gameControlButtons = new BoxPanel(Orientation.Vertical)[0m
+[0m[[0m[31merror[0m] [0m[0m                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:106:41: not found: value Orientation[0m
+[0m[[0m[31merror[0m] [0m[0m  val gameControlButtons = new BoxPanel(Orientation.Vertical)[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:112:35: not found: type Dimension[0m
+[0m[[0m[31merror[0m] [0m[0m  val gameControlButtonSize = new Dimension(200, 100)[0m
+[0m[[0m[31merror[0m] [0m[0m                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:130:15: not found: type BoxPanel[0m
+[0m[[0m[31merror[0m] [0m[0m  val a = new BoxPanel(Orientation.Horizontal)[0m
+[0m[[0m[31merror[0m] [0m[0m              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:130:24: not found: value Orientation[0m
+[0m[[0m[31merror[0m] [0m[0m  val a = new BoxPanel(Orientation.Horizontal)[0m
+[0m[[0m[31merror[0m] [0m[0m                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:163:35: not found: type Dimension[0m
+[0m[[0m[31merror[0m] [0m[0m  val frameMinimumDimension = new Dimension(frameWidth, frameHeight)[0m
+[0m[[0m[31merror[0m] [0m[0m                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:217:35: not found: type Component[0m
+[0m[[0m[31merror[0m] [0m[0m  def setComponentSize(component: Component, dimension: Dimension) = {[0m
+[0m[[0m[31merror[0m] [0m[0m                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:217:57: not found: type Dimension[0m
+[0m[[0m[31merror[0m] [0m[0m  def setComponentSize(component: Component, dimension: Dimension) = {[0m
+[0m[[0m[31merror[0m] [0m[0m                                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:223:34: not found: type Component[0m
+[0m[[0m[31merror[0m] [0m[0m  def setGameInfoFont(component: Component) = {[0m
+[0m[[0m[31merror[0m] [0m[0m                                 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:237:31: not found: value Dialog[0m
+[0m[[0m[31merror[0m] [0m[0m      val howToChooseDriver = Dialog.showConfirmation(new Dialog, "Do you want to choose an existing driver?", optionType =Dialog.Options.YesNo)[0m
+[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:237:59: not found: type Dialog[0m
+[0m[[0m[31merror[0m] [0m[0m      val howToChooseDriver = Dialog.showConfirmation(new Dialog, "Do you want to choose an existing driver?", optionType =Dialog.Options.YesNo)[0m
+[0m[[0m[31merror[0m] [0m[0m                                                          ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:237:112: not found: value optionType[0m
+[0m[[0m[31merror[0m] [0m[0m      val howToChooseDriver = Dialog.showConfirmation(new Dialog, "Do you want to choose an existing driver?", optionType =Dialog.Options.YesNo)[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:241:14: value quit is not a member of object formula.GUI.FormulaGUI[0m
+[0m[[0m[31merror[0m] [0m[0m        this.quit()[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:247:22: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Any[0m
+[0m[[0m[31merror[0m] [0m[0m required: String[0m
+[0m[[0m[31merror[0m] [0m[0m        playerInfo = driverFileInfo[0m
+[0m[[0m[31merror[0m] [0m[0m                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:250:22: not found: value Dialog[0m
+[0m[[0m[31merror[0m] [0m[0m        val answer = Dialog.showInput[String](new Dialog, "Type your name here, player " + playerNumber + ". It may not be more than 13 characters long.", initial = "")[0m
+[0m[[0m[31merror[0m] [0m[0m                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:250:51: not found: type Dialog[0m
+[0m[[0m[31merror[0m] [0m[0m        val answer = Dialog.showInput[String](new Dialog, "Type your name here, player " + playerNumber + ". It may not be more than 13 characters long.", initial = "")[0m
+[0m[[0m[31merror[0m] [0m[0m                                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:250:156: not found: value initial[0m
+[0m[[0m[31merror[0m] [0m[0m        val answer = Dialog.showInput[String](new Dialog, "Type your name here, player " + playerNumber + ". It may not be more than 13 characters long.", initial = "")[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                                                                                           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:254:16: value quit is not a member of object formula.GUI.FormulaGUI[0m
+[0m[[0m[31merror[0m] [0m[0m          this.quit()[0m
+[0m[[0m[31merror[0m] [0m[0m               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:258:35: value length is not a member of Any[0m
+[0m[[0m[31merror[0m] [0m[0m          case Some(name) if name.length <= 13 => {[0m
+[0m[[0m[31merror[0m] [0m[0m                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:260:46: value length is not a member of Any[0m
+[0m[[0m[31merror[0m] [0m[0m            val nameLengthSpotter = if (name.length < 10) "0" else ""[0m
+[0m[[0m[31merror[0m] [0m[0m                                             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:261:37: value filter is not a member of Any[0m
+[0m[[0m[31merror[0m] [0m[0m            val noBlanksName = name.filter(_ != ' ')[0m
+[0m[[0m[31merror[0m] [0m[0m                                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:267:21: not found: value Dialog[0m
+[0m[[0m[31merror[0m] [0m[0m          case _ => Dialog.showMessage(new Dialog, "The name you typed was too long!") //If the name is too long the loop will continue[0m
+[0m[[0m[31merror[0m] [0m[0m                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:267:44: not found: type Dialog[0m
+[0m[[0m[31merror[0m] [0m[0m          case _ => Dialog.showMessage(new Dialog, "The name you typed was too long!") //If the name is too long the loop will continue[0m
+[0m[[0m[31merror[0m] [0m[0m                                           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:395:30: not found: type AbstractButton[0m
+[0m[[0m[31merror[0m] [0m[0m  def setEmptyAction(button: AbstractButton) = {[0m
+[0m[[0m[31merror[0m] [0m[0m                             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:288:10: not found: value TurnCounter[0m
+[0m[[0m[31merror[0m] [0m[0m    if ((TurnCounter.turn / 2) < game.recordTime.toInt) {[0m
+[0m[[0m[31merror[0m] [0m[0m         ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:403:35: value name is not a member of Any[0m
+[0m[[0m[31merror[0m] [0m[0m      case Some(driver) => driver.name[0m
+[0m[[0m[31merror[0m] [0m[0m                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:414:29: not found: value TurnCounter[0m
+[0m[[0m[31merror[0m] [0m[0m    val record =           (TurnCounter.round)[0m
+[0m[[0m[31merror[0m] [0m[0m                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:416:41: value drop is not a member of Any[0m
+[0m[[0m[31merror[0m] [0m[0m    val afterREC =         pureFileInfo.drop(lineBreak + FORMULATRACKRECdigits )[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:424:19: overloaded method constructor File with alternatives:[0m
+[0m[[0m[31merror[0m] [0m[0m  (x$1: java.net.URI)java.io.File <and>[0m
+[0m[[0m[31merror[0m] [0m[0m  (x$1: String)java.io.File[0m
+[0m[[0m[31merror[0m] [0m[0m cannot be applied to (Any)[0m
+[0m[[0m[31merror[0m] [0m[0m    val newFile = new File(filePath)[0m
+[0m[[0m[31merror[0m] [0m[0m                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:291:23: not found: value Dialog[0m
+[0m[[0m[31merror[0m] [0m[0m    val saveDrivers = Dialog.showConfirmation(allItems, game.victor.getOrElse("MYSTERY DRIVER") + " has won the race! Do you wish to save the information about the drivers?", optionType=Dialog.Options.YesNo)[0m
+[0m[[0m[31merror[0m] [0m[0m                      ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:291:176: not found: value optionType[0m
+[0m[[0m[31merror[0m] [0m[0m    val saveDrivers = Dialog.showConfirmation(allItems, game.victor.getOrElse("MYSTERY DRIVER") + " has won the race! Do you wish to save the information about the drivers?", optionType=Dialog.Options.YesNo)[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                                                                                                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:301:23: not found: type Car[0m
+[0m[[0m[31merror[0m] [0m[0m  def saveDriver(car: Car) = {[0m
+[0m[[0m[31merror[0m] [0m[0m                      ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/FormulaGUI.scala:303:34: value reverse is not a member of Any[0m
+[0m[[0m[31merror[0m] [0m[0m    val raceTrackName = filePath.reverse.takeWhile(_ != '/').reverse.dropRight(4)[0m
+[0m[[0m[31merror[0m] [0m[0m                                 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala:2:8: not found: object formulaPlay[0m
+[0m[[0m[31merror[0m] [0m[0mimport formulaPlay._[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala:23:20: not found: type Game[0m
+[0m[[0m[31merror[0m] [0m[0m    val game = new Game(fileInfo, player1Name, player2Name)[0m
+[0m[[0m[31merror[0m] [0m[0m                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala:33:48: not found: value TurnCounter[0m
+[0m[[0m[31merror[0m] [0m[0m      println("It is your turn player " + (if (TurnCounter.turn % 2 == 0) player1Name else player2Name))[0m
+[0m[[0m[31merror[0m] [0m[0m                                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala:38:138: not found: value TurnCounter[0m
+[0m[[0m[31merror[0m] [0m[0m      println("\n\nTrack record by " + game.recordHolderName + " is " + game.recordTime + " rounds.\n" + "Current situation:\nRound " + (TurnCounter.turn / 2) + "\n")[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                                                                         ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala:52:10: not found: value TurnCounter[0m
+[0m[[0m[31merror[0m] [0m[0m    if ((TurnCounter.turn / 2) < game.recordTime.toInt) {[0m
+[0m[[0m[31merror[0m] [0m[0m         ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala:54:37: value name is not a member of Any[0m
+[0m[[0m[31merror[0m] [0m[0m        case Some(driver) => driver.name.toUpperCase[0m
+[0m[[0m[31merror[0m] [0m[0m                                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GameGUI.scala:58:21: not found: value TurnCounter[0m
+[0m[[0m[31merror[0m] [0m[0m      val record = (TurnCounter.turn / 2)[0m
+[0m[[0m[31merror[0m] [0m[0m                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GraphicsMapper.scala:73:36: not found: type Car[0m
+[0m[[0m[31merror[0m] [0m[0m      def car(i: Int, j: Int, car: Car, color: Color) = {[0m
+[0m[[0m[31merror[0m] [0m[0m                                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/GraphicsMapper.scala:74:25: not found: value Direction[0m
+[0m[[0m[31merror[0m] [0m[0m        val direction = Direction(car)[0m
+[0m[[0m[31merror[0m] [0m[0m                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:2:8: not found: object formulaPlay[0m
+[0m[[0m[31merror[0m] [0m[0mimport formulaPlay._[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:5:14: object swing is not a member of package scala[0m
+[0m[[0m[31merror[0m] [0m[0mimport scala.swing._[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:6:14: object swing is not a member of package scala[0m
+[0m[[0m[31merror[0m] [0m[0mimport scala.swing.event._[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:12:31: not found: type SimpleSwingApplication[0m
+[0m[[0m[31merror[0m] [0m[0mobject SimpleGraphics extends SimpleSwingApplication {[0m
+[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:14:17: not found: type MainFrame[0m
+[0m[[0m[31merror[0m] [0m[0m  def top = new MainFrame {[0m
+[0m[[0m[31merror[0m] [0m[0m                ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:15:5: not found: value title[0m
+[0m[[0m[31merror[0m] [0m[0m    title    = "Road"[0m
+[0m[[0m[31merror[0m] [0m[0m    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:16:5: not found: value contents[0m
+[0m[[0m[31merror[0m] [0m[0m    contents = {[0m
+[0m[[0m[31merror[0m] [0m[0m    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:36:5: not found: value size[0m
+[0m[[0m[31merror[0m] [0m[0m    size     = new Dimension(400, 400)[0m
+[0m[[0m[31merror[0m] [0m[0m    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rekowenell/git/formula-peli/src/formula/GUI/SimpleGraphics.scala:42:53: not found: type Panel[0m
+[0m[[0m[31merror[0m] [0m[0m  class MapPanel(track: Array[Array[Char]]) extends Panel {[0m
+[0m[[0m[31merror[0m] [0m[0m                                                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m91 errors found[0m

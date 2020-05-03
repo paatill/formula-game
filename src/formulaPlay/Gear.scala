@@ -19,11 +19,11 @@ abstract class Gear {
    * -2 X   X  X  X  X-2
    *   -2, -1, 0, 1, 2
    */
-  val sideLength = speed * 2 + 1
-  val plusHalf = sideLength / 2
-  val minusHalf = sideLength / 2 * -1
+  val sideLength: Int // = speed * 2 + 1
+  val plusHalf: Int// = sideLength / 2
+  val minusHalf: Int // = sideLength / 2 * -1
   //Index 0 represents the x-axis and index 1 the y-axis of the direction
-  val direction: Array[Int] = Array(minusHalf, 0)
+  val direction: Array[Int] //= Array(minusHalf, 0)
   
   //Takes as parameter an integer that is either -1, 0 or 1
   //Otherwise throws an exception
@@ -64,20 +64,41 @@ abstract class Gear {
 
 class GearOne extends Gear {
   val speed = 1
+  val sideLength = 3
+  val plusHalf = 1
+  val minusHalf = -1
+  val direction = Array(-1, 0)
+  println(direction(0) + " " + direction(1))
 }
 
 class GearTwo extends Gear {
   val speed = 2
+  val sideLength = 5
+  val plusHalf = 2
+  val minusHalf = -2
+  val direction = Array(-2, 0)
 }
 
 class GearThree extends Gear {
   val speed = 3
+  val sideLength = 7
+  val plusHalf = 3
+  val minusHalf = -3
+  val direction = Array(-3, 0)
 }
 
 class GearFour extends Gear {
   val speed = 4
+  val sideLength = 9
+  val plusHalf = 4
+  val minusHalf = -4
+  val direction = Array(-4, 0)
 }
 
 class GearFive extends Gear {
   val speed = 5
+  val sideLength = 11
+  val plusHalf = 5
+  val minusHalf = -5
+  val direction = Array(-5, 0)
 }
