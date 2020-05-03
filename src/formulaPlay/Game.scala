@@ -48,6 +48,8 @@ class Game(info: String, driverInfo1: String, driverInfo2: String) {
   //Marking which car is in turn and which isn't
   private var carInTurn = car1
   private var carNotInTurn = car2
+  
+  //Methods for accessing cars, gears and lapTimes from FormulaGUI
   def inTurnCar = carInTurn
   def notInTurnCar = carNotInTurn
   def inTurnCarGear = carInTurn.gearManager.gear.speed

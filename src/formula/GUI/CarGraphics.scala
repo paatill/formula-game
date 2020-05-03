@@ -103,14 +103,14 @@ object CarGraphics {
         def apply(direction: String): Vector[Vector[Char]] = {
           
           direction match {
-            case "UPRIGHT" => upRight
-            case "UPMIDDLE" => upMiddle
-            case "UPLEFT" => upLeft
+            case "UPRIGHT"     => upRight
+            case "UPMIDDLE"    => upMiddle
+            case "UPLEFT"      => upLeft
             case "MIDDLERIGHT" => middleRight
-            case "MIDDLELEFT" => middleLeft
-            case "DOWNRIGHT" => downRight
-            case "DOWNMIDDLE" => downMiddle
-            case "DOWNLEFT" => downLeft
+            case "MIDDLELEFT"  => middleLeft
+            case "DOWNRIGHT"   => downRight
+            case "DOWNMIDDLE"  => downMiddle
+            case "DOWNLEFT"    => downLeft
           }
           
         }

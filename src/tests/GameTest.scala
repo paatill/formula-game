@@ -10,13 +10,13 @@ class GameTest extends FlatSpec {
   
   "Driver names" should "be what is read from the file." in {
     val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0302XPPPPPYLAP1END", "JIM", "MATTI")
-    assert(game.car1.driver.name === "JIM")
-    assert(game.car2.driver.name === "MATTI")
+    assert(game.inTurnCar.driver.name === "JIM")
+    assert(game.notInTurnCar.driver.name === "MATTI")
   }
   "playTurn" should "return the correct map and should have correct car positions" in {
     val game = new Game("FORMULAMAPREC3JIM5MATTIMAP1008TTTTTTTTTOOOOOOTTOOXOOOTTOOOOOOTTOOYOOOTTOOOOOOTTOOOOOOTTOOOOOOTTOOOOOOTTTTTTTTTTLAP1END", "JIM", "MATTI")
-    assert(game.car1.position === (3, 2))
-    assert(game.car2.position === (3, 4))
+    assert(game.inTurnCar.position === (3, 2))
+    assert(game.notInTurnCar.position === (3, 4))
     assert(game.raceTrack.track === Array(
         Array('T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'), 
         Array('T', 'O', 'O', 'O', 'O', 'O', 'O', 'T'), 
@@ -45,8 +45,8 @@ class GameTest extends FlatSpec {
   
   "car1.position" should "be the given one." in {
     val game = new Game("FORMULAMAPREC3JIM5MATTIMAP0305KPXPPPPKKPPPKPYLAP1END", "JIM", "MATTI")
-    assert(game.car1.position === (2, 0))
-    assert(game.car2.position === (4, 2))
+    assert(game.inTurnCar.position === (2, 0))
+    assert(game.notInTurnCar.position === (4, 2))
   }
   
   
